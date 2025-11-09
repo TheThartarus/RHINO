@@ -228,44 +228,95 @@ def export(self, db):
 
                         # --- Reemplazos a ENTRADA, BOLETAS (GRUPALES) y OFICIOS (GRUPALES) ---
                         if (("ENTRADA" in current_patch) or ("BOLETAS (GRUPALES)" in current_patch) or ("OFICIOS (GRUPALES)" in current_patch)) and (db.total_acusseds == 1):
-                            if "IMP_NAME" in run.text:
-                                run.text = run.text.replace("IMP_NAME", db.acusseds_data[0]["name"].strip().upper())
-                            if "IMP_CDI" in run.text:
-                                run.text = run.text.replace("IMP_CDI", db.acusseds_data[0]["cdi"].strip().upper())
-                            if " respectivamente" in run.text:
-                                run.text = run.text.replace(" respectivamente", "")
-                            if db.acusseds_data[0]["gender"] == "F":
-                                if "del ciudadano" in run.text:
-                                    run.text = run.text.replace("del ciudadano", "de la ciudadana")
-                                if "al ciudadano" in run.text:
-                                    run.text = run.text.replace("al ciudadano", "a la ciudadana")
-                                if "al referido ciudadano" in run.text:
-                                    run.text = run.text.replace("al referido ciudadano", "a la referida ciudadana")
-                                if "al imputado" in run.text:
-                                    run.text = run.text.replace("al imputado", "a la imputada")
-                                if "del imputado" in run.text:
-                                    run.text = run.text.replace("del imputado", "de la imputada")
+                            if db.acusseds_data[0]["documented"] == "NO":
+                                if db.acusseds_data[0]["gender"] == "F":
+                                    if "IMP_NAME" in run.text:
+                                        run.text = run.text.replace("IMP_NAME", db.acusseds_data[0]["name"].strip().upper() + " (NO DOCUMENTADA)")
+                                else:
+                                    if "IMP_NAME" in run.text:
+                                        run.text = run.text.replace("IMP_NAME", db.acusseds_data[0]["name"].strip().upper() + " (NO DOCUMENTADO)")
+                                if "COMMA" in run.text:
+                                    run.text = run.text.replace("COMMA", "")
+                                if "CDI_TEXT" in run.text:
+                                    run.text = run.text.replace("CDI_TEXT", "")
+                                if "SPACE" in run.text:
+                                    run.text = run.text.replace("SPACE", " ")
+                                if "IMP_CDI" in run.text:
+                                    run.text = run.text.replace("IMP_CDI", "")
+                                if "RESPECTIVELY" in run.text:
+                                    run.text = run.text.replace("RESPECTIVELY", "")
+                            else:
+                                if "IMP_NAME" in run.text:
+                                    run.text = run.text.replace("IMP_NAME", db.acusseds_data[0]["name"].strip().upper())
+                                if "IMP_CDI" in run.text:
+                                    run.text = run.text.replace("IMP_CDI", db.acusseds_data[0]["cdi"].strip().upper())
+                                if " respectivamente" in run.text:
+                                    run.text = run.text.replace(" respectivamente", "")
+                                if db.acusseds_data[0]["gender"] == "F":
+                                    if "del ciudadano" in run.text:
+                                        run.text = run.text.replace("del ciudadano", "de la ciudadana")
+                                    if "al ciudadano" in run.text:
+                                        run.text = run.text.replace("al ciudadano", "a la ciudadana")
+                                    if "al referido ciudadano" in run.text:
+                                        run.text = run.text.replace("al referido ciudadano", "a la referida ciudadana")
+                                    if "al imputado" in run.text:
+                                        run.text = run.text.replace("al imputado", "a la imputada")
+                                    if "del imputado" in run.text:
+                                        run.text = run.text.replace("del imputado", "de la imputada")
 
                         if (("ENTRADA" in current_patch) or ("BOLETAS (GRUPALES)" in current_patch) or ("OFICIOS (GRUPALES)" in current_patch)) and (db.total_acusseds > 1):
+                            n_documented = db.total_acusseds - sum(db.acusseds_data[idx]["documented"] == "NO" for idx in range(db.total_acusseds))
                             if "IMP_NAME" in run.text:
-                                run.text = run.text.replace(
-                                    "IMP_NAME",
-                                    formatter([db.acusseds_data[i]["name"].strip().upper() for i in range(db.total_acusseds)])
-                                )
-                            if "IMP_CDI" in run.text:
-                                # Agregar "V-" a los imputados
-                                cdi_items = []
+                                name_items = []
                                 for idx in range(db.total_acusseds):
-                                    cdi_val = db.acusseds_data[idx]["cdi"].strip().upper()
-                                    if idx == 0:
-                                        # No agregar "V-" al primer imputado
-                                        cdi_items.append(cdi_val)
+                                    if db.acusseds_data[idx]["documented"] == "NO":
+                                        if db.acusseds_data[idx]["gender"] == "F":
+                                            name_items.insert(0, db.acusseds_data[idx]["name"].strip().upper() + " (INDOCUMENTADA)")
+                                        else:
+                                            name_items.insert(0, db.acusseds_data[idx]["name"].strip().upper() + " (INDOCUMENTADO)")
                                     else:
-                                        # Agregar "V-" a los demás imputados
-                                        cdi_items.append(cdi_val if cdi_val.startswith("V-") else "V-" + cdi_val)
-                                run.text = run.text.replace("IMP_CDI", formatter(cdi_items))
-                            if "titular de la cédula de identidad" in run.text:
-                                run.text = run.text.replace("titular de la cédula de identidad", "titulares de las cédulas de identidad")
+                                        name_items.append(db.acusseds_data[idx]["name"].strip().upper())
+                                run.text = run.text.replace("IMP_NAME", formatter(name_items))
+                            if n_documented == 0:
+                                if "COMMA" in run.text:
+                                    run.text = run.text.replace("COMMA", "")
+                                if "CDI_TEXT" in run.text:
+                                    run.text = run.text.replace("CDI_TEXT", "")
+                                if "IMP_CDI" in run.text:
+                                    run.text = run.text.replace("IMP_CDI", "")
+                                if "RESPECTIVELY" in run.text:
+                                    run.text = run.text.replace("RESPECTIVELY", "")
+                            if n_documented == 1:
+                                if "COMMA" in run.text:
+                                    run.text = run.text.replace("COMMA", "")
+                                if "CDI_TEXT" in run.text:
+                                    run.text = run.text.replace("CDI_TEXT", " titular de la cédula de identidad N°")
+                                if "IMP_CDI" in run.text:
+                                    for idx in range(db.total_acusseds):
+                                        if db.acusseds_data[idx]["documented"] == "NO":
+                                            continue
+                                        else:
+                                            run.text = run.text.replace("IMP_CDI", "V-" + db.acusseds_data[idx]["cdi"].strip().upper() + ", ")
+                                if "RESPECTIVELY" in run.text:
+                                    run.text = run.text.replace("RESPECTIVELY", "")      
+                            if n_documented > 1:
+                                if "COMMA" in run.text:
+                                    run.text = run.text.replace("COMMA", "")
+                                if "CDI_TEXT" in run.text:
+                                    run.text = run.text.replace("CDI_TEXT", " titulares de las cédulas de identidad N°")
+                                if "IMP_CDI" in run.text:
+                                    cdi_items = []
+                                    for idx in range(db.total_acusseds):
+                                        if db.acusseds_data[idx]["documented"] == "NO":
+                                            continue
+                                        else:
+                                            cdi_val = db.acusseds_data[idx]["cdi"].strip().upper()
+                                            cdi_items.append("V-" + cdi_val)
+                                    run.text = run.text.replace("IMP_CDI", formatter(cdi_items))
+                                if "RESPECTIVELY" in run.text:
+                                    run.text = run.text.replace("RESPECTIVELY", " respectivamente, ")
+                            if "SPACE" in run.text:
+                                run.text = run.text.replace("SPACE", " ")
                             if all(db.acusseds_data[i]["gender"] == "F" for i in range(db.total_acusseds)):
                                 if "del ciudadano" in run.text:
                                     run.text = run.text.replace("del ciudadano", "de las ciudadanas")
@@ -317,11 +368,37 @@ def export(self, db):
                                     except Exception:
                                         messagebox.showerror("Error", f"No se pudo determinar el índice del imputado desde la ruta: {current_patch}")
                                         sys.exit()
+
+                                if db.acusseds_data[idx]["documented"] == "NO":
+                                    if db.acusseds_data[idx]["gender"] == "F":
+                                        if "IMP_NAME" in run.text:
+                                            run.text = run.text.replace("IMP_NAME", db.acusseds_data[idx]["name"].strip().upper() + " (NO DOCUMENTADA)")
+                                    else:
+                                        if "IMP_NAME" in run.text:
+                                            run.text = run.text.replace("IMP_NAME", db.acusseds_data[idx]["name"].strip().upper() + " (NO DOCUMENTADO)")
+                                    if "COMMA" in run.text:
+                                        run.text = run.text.replace("COMMA", "")
+                                    if "CDI_TEXT" in run.text:
+                                        run.text = run.text.replace("CDI_TEXT", "")
+                                    if "SPACE" in run.text:
+                                        run.text = run.text.replace("SPACE", " ")
+                                    if "IMP_CDI" in run.text:
+                                        run.text = run.text.replace("IMP_CDI", "")
+                                    if "RESPECTIVELY" in run.text:
+                                        run.text = run.text.replace("RESPECTIVELY", "")
                                 else:
                                     if "IMP_NAME" in run.text:
                                         run.text = run.text.replace("IMP_NAME", db.acusseds_data[idx]["name"].strip().upper())
+                                    if "CDI_TEXT" in run.text:
+                                        run.text = run.text.replace("CDI_TEXT", " titular de la cédula de identidad N°")
+                                    if "SPACE" in run.text:
+                                        run.text = run.text.replace("SPACE", " ")
                                     if "IMP_CDI" in run.text:
                                         run.text = run.text.replace("IMP_CDI", db.acusseds_data[idx]["cdi"].strip().upper())
+                                    if "RESPECTIVELY" in run.text:
+                                        run.text = run.text.replace("RESPECTIVELY", " respectivamente, ")
+                                    if "COMMA" in run.text:
+                                        run.text = run.text.replace("COMMA", ",")
                                     if db.acusseds_data[idx]["gender"] == "F":
                                         if "IMP_PRISON" in run.text:
                                             run.text = run.text.replace("IMP_PRISON", metadata["prisons"]["F"])

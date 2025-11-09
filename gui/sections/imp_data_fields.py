@@ -85,7 +85,7 @@ def imp_data_fields(self, db):
             messagebox.showerror("Error", "Por favor, complete todos los campos.")
             return
         else:
-            self.db.acusseds_data.append({'name': name, 'cdi': cdi, 'gender': gender})
+            self.db.acusseds_data.append({'name': name, 'cdi': cdi, 'gender': gender, 'documented': documented})
             self.db.total_acusseds += 1
 
             messagebox.showinfo("Éxito", "Imputado registrado correctamente.")
