@@ -16,7 +16,7 @@ def imp_data_fields(self, db):
     name_label = tk.Label(new_window, text="NOMBRE", font=Style.label_font)
     name_label.grid(row=0, column=0, pady=Style.pady, padx=Style.padx, sticky="w")
 
-    documented_label = tk.Label(new_window, text="¿DOCUMENTADO?", font=Style.label_font)
+    documented_label = tk.Label(new_window, text="DOCUMENTADO", font=Style.label_font)
     documented_label.grid(row=1, column=0, pady=Style.pady, padx=Style.padx, sticky="w")
 
     nationality_label = tk.Label(new_window, text="NACIONALIDAD", font=Style.label_font)
@@ -38,7 +38,7 @@ def imp_data_fields(self, db):
     name_entry.grid(row=0, columnspan=3, column=1, pady=Style.pady, padx=Style.padx, sticky="ew")
     name_entry['validatecommand'] = (name_entry.register(validate_name_input), '%P')
 
-    # Desplegar el 'OptionMenu' de '¿DOCUMENTADO?'
+    # Desplegar el 'OptionMenu' de 'DOCUMENTADO'
     documented_var = tk.StringVar(new_window)
     documented_var.set("SÍ")
 
