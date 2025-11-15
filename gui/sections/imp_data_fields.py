@@ -3,6 +3,8 @@ from tkinter import messagebox
 
 from gui.style.style import Style
 
+from gui.sections.cop_data_field import cop_data_field
+
 def imp_data_fields(self, db):
     new_window = tk.Toplevel(self.root)
     new_window.title(f"DATOS DEL IMPUTADO N° {db.current_acussed + 1}")
@@ -114,11 +116,7 @@ def imp_data_fields(self, db):
                 imp_data_fields(self, self.db)
             else:
                 messagebox.showinfo("Éxito", "Todos los imputados han sido registrados.")
-                self.trib_optionmenu.config(state=tk.DISABLED)
-                self.fisc_optionmenu.config(state=tk.DISABLED)
-                self.n_acusseds_optionmenu.config(state=tk.DISABLED)
-                self.export_button.config(state=tk.NORMAL)
-                self.accept_button.config(state=tk.DISABLED)
+                cop_data_field(self, self.db)
 
     # Desplegar el 'Button' de 'REGISTRAR'
     accept_button = tk.Button(new_window, text="REGISTRAR", font=Style.button_font, bg=Style.button_bg, fg=Style.button_fg,

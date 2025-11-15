@@ -12,3 +12,5 @@ class Database:
                 self.acusseds_data = []
 
                 self.assis_firm = tk.StringVar(value="")
+
+                self.cop_data = ""

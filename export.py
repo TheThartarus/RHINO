@@ -225,6 +225,11 @@ def export(self, db):
                                 run.text = run.text.replace("FIS_NUM_MINUS", "Vigésima Segunda (22°)")
                         else:
                             pass
+                        if "IMP_COP" in run.text:
+                            if db.cop_data.strip().upper():
+                                run.text = run.text.replace("IMP_COP", db.cop_data.strip().upper())
+                            else:
+                                pass
 
                         # --- Reemplazos a ENTRADA, BOLETAS (GRUPALES) y OFICIOS (GRUPALES) ---
                         if (("ENTRADA" in current_patch) or ("BOLETAS (GRUPALES)" in current_patch) or ("OFICIOS (GRUPALES)" in current_patch)) and (db.total_acusseds == 1):
