@@ -9,7 +9,7 @@ def imp_data_fields(self, db):
     new_window.iconbitmap("gui/style/rhino_icon.ico")
     new_window.geometry("+{}+{}".format(self.root.winfo_x() + 100, self.root.winfo_y() + 100))
     new_window.geometry("665x340")
-    new_window.resizable(True, True)
+    new_window.resizable(False, False)
     new_window.grid_columnconfigure(3, weight=1)
 
     # Desplegar los 'Labels'
