@@ -13,7 +13,7 @@ def show_about(self):
     new_window.grid_columnconfigure(3, weight=1)
 
     # Desplegar el 'Label' con la información de la aplicación
-    about_text = "Rhino 1.4.1\n\nDesarrollado por: Retroid Guy\n\n© 2025 Todos los derechos reservados"
+    about_text = "Rhino 1.5.0\n\nDesarrollado por: TheThartarus\n\n\n\n© 2025 Todos los derechos reservados"
     about_label = tk.Label(new_window, text=about_text, font=Style.label_font, justify="center", wraplength=350)
     about_label.pack(expand=True)
 
