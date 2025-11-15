@@ -253,7 +253,7 @@ def export(self, db):
                                 if "TITULAR_TEXT" in run.text:
                                     run.text = run.text.replace(" TITULAR_TEXT ", " titular de la cédula de identidad N° ")
                                 if "IMP_CDIS" in run.text:
-                                    run.text = run.text.replace("IMP_CDIS", f"V-{db.acusseds_data[0]["cdi"].strip().upper()}")
+                                    run.text = run.text.replace("IMP_CDIS", f"{db.acusseds_data[0]['nationality'].strip().upper()}-{db.acusseds_data[0]["cdi"].strip().upper()}")
                                 if "RESPECTIVELY_TEXT" in run.text:
                                     run.text = run.text.replace(" RESPECTIVELY_TEXT", "")
                                 if "RESPECTIVELY_CR_TEXT" in run.text:
@@ -305,9 +305,9 @@ def export(self, db):
                                             continue
                                         else:
                                             if "CARÁTULA" in file:
-                                                run.text = run.text.replace("IMP_CDIS", f"V-{db.acusseds_data[idx]["cdi"].strip().upper()}")
+                                                run.text = run.text.replace("IMP_CDIS", f"{db.acusseds_data[idx]['nationality'].strip().upper()}-{db.acusseds_data[idx]["cdi"].strip().upper()}")
                                             else:
-                                                run.text = run.text.replace("IMP_CDIS", f"V-{db.acusseds_data[idx]["cdi"].strip().upper()},")
+                                                run.text = run.text.replace("IMP_CDIS", f"{db.acusseds_data[idx]['nationality'].strip().upper()}-{db.acusseds_data[idx]["cdi"].strip().upper()},")
                                 if "RESPECTIVELY_TEXT" in run.text:
                                     run.text = run.text.replace(" RESPECTIVELY_TEXT,", "")
                                 if "RESPECTIVELY_CR_TEXT" in run.text:
@@ -321,8 +321,7 @@ def export(self, db):
                                         if db.acusseds_data[idx]["documented"] == "NO":
                                             continue
                                         else:
-                                            cdi_val = db.acusseds_data[idx]["cdi"].strip().upper()
-                                            cdi_items.append("V-" + cdi_val)
+                                            cdi_items.append(f"{db.acusseds_data[idx]['nationality'].strip().upper()}-{db.acusseds_data[idx]["cdi"].strip().upper()}")
                                     run.text = run.text.replace("IMP_CDIS", f"{formatter(cdi_items)}")
                                 if "RESPECTIVELY_TEXT" in run.text:
                                     run.text = run.text.replace("RESPECTIVELY_TEXT", "respectivamente")
@@ -397,7 +396,7 @@ def export(self, db):
                                     if "TITULAR_TEXT" in run.text:
                                         run.text = run.text.replace("TITULAR_TEXT", "titular de la cédula de identidad N°")
                                     if "IMP_CDIS" in run.text:
-                                        run.text = run.text.replace("IMP_CDIS", "V-" + f"{db.acusseds_data[idx]["cdi"].strip().upper()}")
+                                        run.text = run.text.replace("IMP_CDIS", f"{db.acusseds_data[idx]["nationality"].strip().upper()}-{db.acusseds_data[idx]["cdi"].strip().upper()}")
                                 if db.acusseds_data[idx]["gender"] == "F":
                                     if "IMP_PRISON" in run.text:
                                         run.text = run.text.replace("IMP_PRISON", metadata["prisons"]["F"])
