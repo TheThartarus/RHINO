@@ -39,7 +39,7 @@ def exp_data_fields(self, db):
             assis_data_fields(self, self.db)
             new_window.destroy()
 
-    # Desplegar el 'Button' de 'REGISTRAR'
+    # Desplegar el 'Button' de 'ACEPTAR'
     register_button = tk.Button(new_window, text="ACEPTAR", font=Style.button_font, bg=Style.button_bg, fg=Style.button_fg,
                               activebackground=Style.button_active_bg, activeforeground=Style.button_active_fg, command=register)
     register_button.grid(row=1, column=0, pady=Style.pady, padx=Style.padx, sticky="ew")
