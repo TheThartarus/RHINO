@@ -3,8 +3,9 @@ from tkinter import messagebox
 
 from gui.style.style import Style
 from gui.sections.assis_data_fields import assis_data_fields
+import config
 
-def exp_data_fields(self, db):
+def exp_data_fields(self):
     new_window = tk.Toplevel(self.root)
     new_window.title("N° DE EXPEDIENTE")
     new_window.iconbitmap("gui/style/rhino_icon.ico")
@@ -14,30 +15,30 @@ def exp_data_fields(self, db):
     new_window.grid_columnconfigure(3, weight=1)
 
     # Desplegar el 'Label' de 'N° DE EXPEDIENTE'
-    expedient_number_label = tk.Label(new_window, text="N° DE EXPEDIENTE", font=Style.label_font)
-    expedient_number_label.grid(row=0, column=0, pady=Style.pady, padx=Style.padx, sticky="w")
+    exp_number_label = tk.Label(new_window, text="N° DE EXPEDIENTE", font=Style.label_font)
+    exp_number_label.grid(row=0, column=0, pady=Style.pady, padx=Style.padx, sticky="w")
 
     # Definir la función de validación para el 'Entry' de 'N° DE EXPEDIENTE'
-    def validate_expedient_number_input(P):
+    def validate_exp_number_input(P):
         if P == "" or all(char.isdigit() for char in P): return True
         return False
 
     # Desplegar el 'Entry' de 'N° DE EXPEDIENTE'
-    expedient_number_entry = tk.Entry(new_window, textvariable=self.db.expedient_number_var, font=Style.entry_font, validate="key")
-    expedient_number_entry.grid(row=0, column=1, pady=Style.pady, padx=Style.padx, sticky="ew")
-    expedient_number_entry['validatecommand'] = (expedient_number_entry.register(validate_expedient_number_input), '%P')
+    exp_number_entry = tk.Entry(new_window, font=Style.entry_font, validate="key")
+    exp_number_entry.grid(row=0, column=1, pady=Style.pady, padx=Style.padx, sticky="ew")
+    exp_number_entry['validatecommand'] = (exp_number_entry.register(validate_exp_number_input), '%P')
 
     def register():
-        exp_number = expedient_number_entry.get()
+        exp_number = exp_number_entry.get().strip()
 
-        if not exp_number.strip():
+        if not exp_number:
             messagebox.showerror("Error", "Por favor, complete el campo.")
             return
-        else:
-            self.db.expedient_number_var.set(exp_number)
-            messagebox.showinfo("Éxito", "Número de expediente registrado correctamente.")
-            assis_data_fields(self, self.db)
-            new_window.destroy()
+
+        config.exp_number = exp_number
+        messagebox.showinfo("Éxito", "Número de expediente registrado correctamente.")
+        assis_data_fields(self)
+        new_window.destroy()
 
     # Desplegar el 'Button' de 'ACEPTAR'
     register_button = tk.Button(new_window, text="ACEPTAR", font=Style.button_font, bg=Style.button_bg, fg=Style.button_fg,

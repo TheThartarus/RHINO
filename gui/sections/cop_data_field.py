@@ -2,8 +2,9 @@ import tkinter as tk
 from tkinter import messagebox
 
 from gui.style.style import Style
+import config
 
-def cop_data_field(self, db):
+def cop_data_field(self):
     new_window = tk.Toplevel(self.root)
     new_window.title("DATOS DEL ÓRGANO APREHENSOR")
     new_window.iconbitmap("gui/style/rhino_icon.ico")
@@ -26,8 +27,7 @@ def cop_data_field(self, db):
 
     # Definir la función del 'Button' de 'ACEPTAR'
     def register():
-        cop_data = cop_data_text.get("1.0", "end-1c").strip()
-        db.cop_data = cop_data
+        config.cop_data = cop_data_text.get("1.0", "end-1c").strip()
 
         self.trib_optionmenu.config(state=tk.DISABLED)
         self.fisc_optionmenu.config(state=tk.DISABLED)
@@ -43,7 +43,7 @@ def cop_data_field(self, db):
     register_button = tk.Button(new_window, text="ACEPTAR/SALTAR", font=Style.button_font, bg=Style.button_bg, fg=Style.button_fg,
                               activebackground=Style.button_active_bg, activeforeground=Style.button_active_fg, command=register)
     register_button.grid(row=2, column=3, pady=Style.pady, padx=Style.padx, sticky="ew")
-    #register_button.bind("<Return>", lambda event: register())
+    register_button.bind("<Return>", lambda event: register())
 
 if __name__ == "__main__":
     root = tk.Tk()

@@ -2,12 +2,13 @@ import tkinter as tk
 from tkinter import messagebox
 
 from gui.style.style import Style
-
 from gui.sections.cop_data_field import cop_data_field
+import config
 
-def imp_data_fields(self, db):
+current_acussed = 0
+def imp_data_fields(self):
     new_window = tk.Toplevel(self.root)
-    new_window.title(f"DATOS DEL IMPUTADO N° {db.current_acussed + 1}")
+    new_window.title(f"DATOS DEL IMPUTADO N° {current_acussed + 1}")
     new_window.iconbitmap("gui/style/rhino_icon.ico")
     new_window.geometry("+{}+{}".format(self.root.winfo_x() + 100, self.root.winfo_y() + 100))
     new_window.geometry("665x340")
@@ -43,14 +44,12 @@ def imp_data_fields(self, db):
     # Desplegar el 'OptionMenu' de 'DOCUMENTADO'
     documented_var = tk.StringVar(new_window)
     documented_var.set("SÍ")
-
     documented_menu = tk.OptionMenu(new_window, documented_var, "SÍ", "NO")
     documented_menu.grid(row=1, column=1, pady=Style.pady, padx=Style.padx, sticky="ew")
 
     # Desplegar el 'OptionMenu' de 'VENEZOLANO O EXTRANJERO'
     nationality_var = tk.StringVar(new_window)
     nationality_var.set("VENEZOLANO")
-
     nationality_menu = tk.OptionMenu(new_window, nationality_var, "VENEZOLANO", "EXTRANJERO")
     nationality_menu.grid(row=2, column=1, pady=Style.pady, padx=Style.padx, sticky="ew")
 
@@ -67,7 +66,6 @@ def imp_data_fields(self, db):
     # Desplegar el 'OptionMenu' de 'SEXO'
     gender_var = tk.StringVar(new_window)
     gender_var.set("SELECCIONAR")
-
     gender_menu = tk.OptionMenu(new_window, gender_var, "MASCULINO", "FEMENINO", "OTRO")
     gender_menu.grid(row=4, column=1, pady=Style.pady, padx=Style.padx, sticky="ew")
 
@@ -77,11 +75,11 @@ def imp_data_fields(self, db):
 
     # Definir la función del 'Button' de 'REGISTRAR'
     def register():
-        name = name_entry.get()
-        cdi = cdi_entry.get()
-        gender = str(gender_var.get())
-        documented = str(documented_var.get())
-        nationality = str(nationality_var.get())
+        name = name_entry.get().strip()
+        cdi = cdi_entry.get().strip()
+        gender = gender_var.get()
+        documented = documented_var.get()
+        nationality = nationality_var.get()
 
         if gender == "FEMENINO":
             gender = "F"
@@ -104,19 +102,21 @@ def imp_data_fields(self, db):
         if not name.strip() or (documented == "SÍ" and not cdi.strip()) or gender == "SELECCIONAR":
             messagebox.showerror("Error", "Por favor, complete todos los campos.")
             return
-        else:
-            self.db.acusseds_data.append({'name': name, 'cdi': cdi, 'gender': gender, 'documented': documented, 'nationality': nationality})
-            self.db.total_acusseds += 1
 
-            messagebox.showinfo("Éxito", "Imputado registrado correctamente.")
+        config.acusseds_data.append({'name': name, 'cdi': cdi, 'gender': gender, 'documented': documented, 'nationality': nationality})
+
+        messagebox.showinfo("Éxito", "Imputado registrado correctamente.")
+        new_window.destroy()
+
+        global current_acussed
+
+        current_acussed += 1
+        if current_acussed < config.n_acusseds:
+            imp_data_fields(self)
             new_window.destroy()
-
-            self.db.current_acussed += 1
-            if self.db.current_acussed < int(self.db.n_acusseds_var.get()):
-                imp_data_fields(self, self.db)
-            else:
-                messagebox.showinfo("Éxito", "Todos los imputados han sido registrados.")
-                cop_data_field(self, self.db)
+        else:
+            messagebox.showinfo("Éxito", "Todos los imputados han sido registrados.")
+            cop_data_field(self)
 
     # Desplegar el 'Button' de 'REGISTRAR'
     accept_button = tk.Button(new_window, text="REGISTRAR", font=Style.button_font, bg=Style.button_bg, fg=Style.button_fg,
