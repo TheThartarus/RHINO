@@ -3,7 +3,7 @@ from tkinter import messagebox
 
 from gui.style.style import Style
 from gui.sections.assis_data_fields import assis_data_fields
-import config
+import data
 
 def exp_data_fields(self):
     new_window = tk.Toplevel(self.root)
@@ -35,7 +35,7 @@ def exp_data_fields(self):
             messagebox.showerror("Error", "Por favor, complete el campo.")
             return
 
-        config.exp_number = exp_number
+        data.exp_number = exp_number
         messagebox.showinfo("Éxito", "Número de expediente registrado correctamente.")
         assis_data_fields(self)
         new_window.destroy()

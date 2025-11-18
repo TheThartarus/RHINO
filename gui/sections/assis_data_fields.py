@@ -3,7 +3,7 @@ from tkinter import messagebox
 
 from gui.style.style import Style
 from gui.sections.imp_data_fields import imp_data_fields
-import config
+import data
 
 def assis_data_fields(self):
     new_window = tk.Toplevel(self.root)
@@ -35,7 +35,7 @@ def assis_data_fields(self):
             messagebox.showerror("Error", "Por favor, complete el campo.")
             return
 
-        config.assis_firm = assis_firm
+        data.assis_firm = assis_firm
         messagebox.showinfo("Éxito", "Firma del asistente registrada correctamente.")
         imp_data_fields(self)
         new_window.destroy()

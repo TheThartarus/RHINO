@@ -10,7 +10,7 @@ import json
 import sys
 import re
 
-import config
+import data
 
 def export(self):
     today_date = date.today()
@@ -56,7 +56,7 @@ def export(self):
         sys.exit()
 
     # Crear carpeta del expediente en el escritorio
-    expedient_name = f"{str(today_date.year)}-{config.exp_number}"
+    expedient_name = f"{str(today_date.year)}-{data.exp_number}"
     expedient_folder = os.path.join(user_desktop, expedient_name)
     os.makedirs(expedient_folder, exist_ok=True)
 
@@ -80,8 +80,8 @@ def export(self):
     shutil.copytree(tickets_src, tickets_dst)
 
     # Crear carpetas para cada imputado en la carpeta DECISIÓN
-    for i in range(config.n_acusseds):
-        acussed_name = config.acusseds_data[i]["name"].strip().upper().replace(" ", "_")
+    for i in range(data.n_acusseds):
+        acussed_name = data.acusseds_data[i]["name"].strip().upper().replace(" ", "_")
         ticket_src = os.path.join(rhino_folder, "MODELS", "DECISIÓN")
         # Prefijo con número y guión: "0 - NOMBRE"
         ticket_dst = os.path.join(ticket_folder, f"{i} - {acussed_name}")
@@ -120,16 +120,18 @@ def export(self):
         shutil.rmtree(rhino_folder)
         sys.exit()
 
-    if config.trib == "CONTROL 1":
-        data = metadata["tribs"]["first"]
-    elif config.trib == "CONTROL 2":
-        data = metadata["tribs"]["second"]
-    elif config.trib == "CONTROL 3":
-        data = metadata["tribs"]["third"]
-    elif config.trib == "CONTROL 4":
-        data = metadata["tribs"]["fourth"]
-    elif config.trib == "CONTROL 5":
-        data = metadata["tribs"]["fifth"]
+    prison_metadata = metadata["prisons"]
+
+    if data.trib == "CONTROL 1":
+        trib_metadata = metadata["tribs"]["first"]
+    elif data.trib == "CONTROL 2":
+        trib_metadata = metadata["tribs"]["second"]
+    elif data.trib == "CONTROL 3":
+        trib_metadata = metadata["tribs"]["third"]
+    elif data.trib == "CONTROL 4":
+        trib_metadata = metadata["tribs"]["fourth"]
+    elif data.trib == "CONTROL 5":
+        trib_metadata = metadata["tribs"]["fifth"]
 
     def formatter(items):
         """
@@ -158,69 +160,69 @@ def export(self):
                             continue
 
                         # --- Reemplazos globales ---
-                        run.font.name = data["FONT_NAME"]
+                        run.font.name = trib_metadata["FONT_NAME"]
 
                         if "CARÁTULA" in file:
                             pass
                         else:
-                            run.font.size = Pt(data["FONT_SIZE"])
+                            run.font.size = Pt(trib_metadata["FONT_SIZE"])
 
                         if "EXP_NAME" in run.text:
-                            run.text = run.text.replace("EXP_NAME", f"MP21-P-{str(today_date.year)}-{config.exp_number}")
+                            run.text = run.text.replace("EXP_NAME", f"MP21-P-{str(today_date.year)}-{data.exp_number}")
                         if "EXP_LONG_DATE" in run.text:
                             run.text = run.text.replace("EXP_LONG_DATE", f"{today_date.day} de {month_names[today_date.month]} de {today_date.year}")
                         if "YEAR" in run.text:
                             run.text = run.text.replace("YEAR", str(today_date.year))
                         if "DAYS" in run.text:
-                            if data["judge"]["name"].startswith("LISSETH"):
+                            if trib_metadata["judge"]["name"].startswith("LISSETH"):
                                 run.text = run.text.replace("DAYS", f"{ind_year_diff + 1}° y {fed_year_diff}°")
                             else:
                                 run.text = run.text.replace("DAYS", f"{ind_year_diff + 1}°, {fed_year_diff}° y {rev_year_diff}°")
                         if "EXP_SHORT_DATE" in run.text:
                             run.text = run.text.replace("EXP_SHORT_DATE", f"{today_date.day}/{today_date.month}/{today_date.year}")
                         if "TRB_LONG_NUM_MAYUS" in run.text:
-                            run.text = run.text.replace("TRB_LONG_NUM_MAYUS", data["TRB_LONG_NUM_MAYUS"])
+                            run.text = run.text.replace("TRB_LONG_NUM_MAYUS", trib_metadata["TRB_LONG_NUM_MAYUS"])
                         if "TRB_LONG_NUM_MINUS" in run.text:
-                            run.text = run.text.replace("TRB_LONG_NUM_MINUS", data["TRB_LONG_NUM_MINUS"])
+                            run.text = run.text.replace("TRB_LONG_NUM_MINUS", trib_metadata["TRB_LONG_NUM_MINUS"])
                         if "TRB_SHORT_NUM" in run.text:
-                            run.text = run.text.replace("TRB_SHORT_NUM", data["TRB_SHORT_NUM"])
+                            run.text = run.text.replace("TRB_SHORT_NUM", trib_metadata["TRB_SHORT_NUM"])
                         if "JUDGE_NAME" in run.text:
-                            run.text = run.text.replace("JUDGE_NAME", data["judge"]["name"])
+                            run.text = run.text.replace("JUDGE_NAME", trib_metadata["judge"]["name"])
                         if "JUDGE_INITIALS" in run.text:
-                            run.text = run.text.replace("JUDGE_INITIALS", data["judge"]["initials"])
+                            run.text = run.text.replace("JUDGE_INITIALS", trib_metadata["judge"]["initials"])
                         if "SECRETARY_NAME" in run.text:
-                            run.text = run.text.replace("SECRETARY_NAME", data["secretary"]["name"])
+                            run.text = run.text.replace("SECRETARY_NAME", trib_metadata["secretary"]["name"])
                         if "SECRETARY_INITIALS" in run.text:
-                            run.text = run.text.replace("SECRETARY_INITIALS", data["secretary"]["initials"])
-                        if data["judge"]["gender"] == "F":
+                            run.text = run.text.replace("SECRETARY_INITIALS", trib_metadata["secretary"]["initials"])
+                        if trib_metadata["judge"]["gender"] == "F":
                             if "JUEZ" in run.text:
                                 run.text = run.text.replace("JUEZ", "JUEZA")
-                        if data["judge"]["gender"] == "F":
+                        if trib_metadata["judge"]["gender"] == "F":
                             if "DR" in run.text:
                                 run.text = run.text.replace("DR", "DRA")
                         else:
-                            if data["judge"]["name"].startswith("ROGER") or data["judge"]["name"].startswith("CÉSAR"):
+                            if trib_metadata["judge"]["name"].startswith("ROGER") or trib_metadata["judge"]["name"].startswith("CÉSAR"):
                                 run.text = run.text.replace("DR", "ABG")
-                        if data["secretary"]["gender"] == "F":
+                        if trib_metadata["secretary"]["gender"] == "F":
                             run.text = run.text.replace("SECRETARIO", "SECRETARIA")
                         if "ASSISTANT_INITIALS" in run.text:
-                            run.text = run.text.replace("ASSISTANT_INITIALS", config.assis_firm)
-                        if config.fisc == "FLAGRANCIA":
+                            run.text = run.text.replace("ASSISTANT_INITIALS", data.assis_firm)
+                        if data.fisc == "FLAGRANCIA":
                             if "FIS_NUM_MAYUS" in run.text:
                                 run.text = run.text.replace("FIS_NUM_MAYUS", "DE LA SALA DE FLAGRANCIA")
                             if "FIS_NUM_MINUS" in run.text:
                                 run.text = run.text.replace("FIS_NUM_MINUS", "de la Sala de Flagrancia")
-                        elif config.fisc == "27°":
+                        elif data.fisc == "27°":
                             if "FIS_NUM_MAYUS" in run.text:
                                 run.text = run.text.replace("FIS_NUM_MAYUS", "VIGÉSIMA SÉPTIMA (27°)")
                             if "FIS_NUM_MINUS" in run.text:
                                 run.text = run.text.replace("FIS_NUM_MINUS", "Vigésima Séptima (27°)")
-                        elif config.fisc == "26°":
+                        elif data.fisc == "26°":
                             if "FIS_NUM_MAYUS" in run.text:
                                 run.text = run.text.replace("FIS_NUM_MAYUS", "VIGÉSIMA SEXTA (26°)")
                             if "FIS_NUM_MINUS" in run.text:
                                 run.text = run.text.replace("FIS_NUM_MINUS", "Vigésima Sexta (26°)")
-                        elif config.fisc == "22°":
+                        elif data.fisc == "22°":
                             if "FIS_NUM_MAYUS" in run.text:
                                 run.text = run.text.replace("FIS_NUM_MAYUS", "VIGÉSIMA SEGUNDA (22°)")
                             if "FIS_NUM_MINUS" in run.text:
@@ -228,20 +230,20 @@ def export(self):
                         else:
                             pass
                         if "IMP_COP" in run.text:
-                            if not config.cop_data.strip():
+                            if not data.cop_data.strip():
                                 pass
                             else:
-                                run.text = run.text.replace("IMP_COP", config.cop_data.strip())
+                                run.text = run.text.replace("IMP_COP", data.cop_data.strip())
 
                         # --- Reemplazos a ENTRADA, BOLETAS (GRUPALES) y OFICIOS (GRUPALES) ---
-                        if (("ENTRADA" in current_patch) or ("BOLETAS (GRUPALES)" in current_patch) or ("OFICIOS (GRUPALES)" in current_patch)) and (config.n_acusseds == 1):
-                            if config.acusseds_data[0]["documented"] == "NO":
-                                if config.acusseds_data[0]["gender"] == "F":
+                        if (("ENTRADA" in current_patch) or ("BOLETAS (GRUPALES)" in current_patch) or ("OFICIOS (GRUPALES)" in current_patch)) and (data.n_acusseds == 1):
+                            if data.acusseds_data[0]["documented"] == "NO":
+                                if data.acusseds_data[0]["gender"] == "F":
                                     if "IMP_NAMES" in run.text:
-                                        run.text = run.text.replace("IMP_NAMES", config.acusseds_data[0]["name"].strip().upper() + " (NO DOCUMENTADA)")
+                                        run.text = run.text.replace("IMP_NAMES", data.acusseds_data[0]["name"].strip().upper() + " (NO DOCUMENTADA)")
                                 else:
                                     if "IMP_NAMES" in run.text:
-                                        run.text = run.text.replace("IMP_NAMES", config.acusseds_data[0]["name"].strip().upper() + " (NO DOCUMENTADO)")
+                                        run.text = run.text.replace("IMP_NAMES", data.acusseds_data[0]["name"].strip().upper() + " (NO DOCUMENTADO)")
                                 if "CARÁTULA" in file:
                                     if "TITULAR_TEXT" in run.text:
                                         run.text = run.text.replace(", TITULAR_TEXT ", "")
@@ -256,16 +258,16 @@ def export(self):
                                     run.text = run.text.replace(" RESPECTIVELY_CR_TEXT", "")
                             else:
                                 if "IMP_NAMES" in run.text:
-                                    run.text = run.text.replace("IMP_NAMES", config.acusseds_data[0]["name"].strip().upper())
+                                    run.text = run.text.replace("IMP_NAMES", data.acusseds_data[0]["name"].strip().upper())
                                 if "TITULAR_TEXT" in run.text:
                                     run.text = run.text.replace(" TITULAR_TEXT ", " titular de la cédula de identidad N° ")
                                 if "IMP_CDIS" in run.text:
-                                    run.text = run.text.replace("IMP_CDIS", f"{config.acusseds_data[0]['nationality'].strip().upper()}-{config.acusseds_data[0]["cdi"].strip().upper()}")
+                                    run.text = run.text.replace("IMP_CDIS", f"{data.acusseds_data[0]['nationality'].strip().upper()}-{data.acusseds_data[0]["cdi"].strip().upper()}")
                                 if "RESPECTIVELY_TEXT" in run.text:
                                     run.text = run.text.replace(" RESPECTIVELY_TEXT", "")
                                 if "RESPECTIVELY_CR_TEXT" in run.text:
                                     run.text = run.text.replace(" RESPECTIVELY_CR_TEXT", "")
-                            if config.acusseds_data[0]["gender"] == "F":
+                            if data.acusseds_data[0]["gender"] == "F":
                                 if "del ciudadano" in run.text:
                                     run.text = run.text.replace("del ciudadano", "de la ciudadana")
                                 if "al ciudadano" in run.text:
@@ -277,18 +279,18 @@ def export(self):
                                 if "del imputado" in run.text:
                                     run.text = run.text.replace("del imputado", "de la imputada")
 
-                        if (("ENTRADA" in current_patch) or ("BOLETAS (GRUPALES)" in current_patch) or ("OFICIOS (GRUPALES)" in current_patch)) and (config.n_acusseds > 1):
-                            n_documented = config.n_acusseds - sum(config.acusseds_data[idx]["documented"] == "NO" for idx in range(config.n_acusseds))
+                        if (("ENTRADA" in current_patch) or ("BOLETAS (GRUPALES)" in current_patch) or ("OFICIOS (GRUPALES)" in current_patch)) and (data.n_acusseds > 1):
+                            n_documented = data.n_acusseds - sum(data.acusseds_data[idx]["documented"] == "NO" for idx in range(data.n_acusseds))
                             if "IMP_NAMES" in run.text:
                                 name_items = []
-                                for idx in range(config.n_acusseds):
-                                    if config.acusseds_data[idx]["documented"] == "NO":
-                                        if config.acusseds_data[idx]["gender"] == "F":
-                                            name_items.insert(0, config.acusseds_data[idx]["name"].strip().upper() + " (INDOCUMENTADA)")
+                                for idx in range(data.n_acusseds):
+                                    if data.acusseds_data[idx]["documented"] == "NO":
+                                        if data.acusseds_data[idx]["gender"] == "F":
+                                            name_items.insert(0, data.acusseds_data[idx]["name"].strip().upper() + " (INDOCUMENTADA)")
                                         else:
-                                            name_items.insert(0, config.acusseds_data[idx]["name"].strip().upper() + " (INDOCUMENTADO)")
+                                            name_items.insert(0, data.acusseds_data[idx]["name"].strip().upper() + " (INDOCUMENTADO)")
                                     else:
-                                        name_items.append(config.acusseds_data[idx]["name"].strip().upper())
+                                        name_items.append(data.acusseds_data[idx]["name"].strip().upper())
                                 run.text = run.text.replace("IMP_NAMES", formatter(name_items))
                             if n_documented == 0:
                                 if "CARÁTULA" in file:
@@ -307,14 +309,14 @@ def export(self):
                                 if "TITULAR_TEXT" in run.text:
                                     run.text = run.text.replace("TITULAR_TEXT", "titular de la cédula de identidad N°")
                                 if "IMP_CDIS" in run.text:
-                                    for idx in range(config.n_acusseds):
-                                        if config.acusseds_data[idx]["documented"] == "NO":
+                                    for idx in range(data.n_acusseds):
+                                        if data.acusseds_data[idx]["documented"] == "NO":
                                             continue
                                         else:
                                             if "CARÁTULA" in file:
-                                                run.text = run.text.replace("IMP_CDIS", f"{config.acusseds_data[idx]['nationality'].strip().upper()}-{config.acusseds_data[idx]["cdi"].strip().upper()}")
+                                                run.text = run.text.replace("IMP_CDIS", f"{data.acusseds_data[idx]['nationality'].strip().upper()}-{data.acusseds_data[idx]["cdi"].strip().upper()}")
                                             else:
-                                                run.text = run.text.replace("IMP_CDIS", f"{config.acusseds_data[idx]['nationality'].strip().upper()}-{config.acusseds_data[idx]["cdi"].strip().upper()},")
+                                                run.text = run.text.replace("IMP_CDIS", f"{data.acusseds_data[idx]['nationality'].strip().upper()}-{data.acusseds_data[idx]["cdi"].strip().upper()},")
                                 if "RESPECTIVELY_TEXT" in run.text:
                                     run.text = run.text.replace(" RESPECTIVELY_TEXT,", "")
                                 if "RESPECTIVELY_CR_TEXT" in run.text:
@@ -324,17 +326,17 @@ def export(self):
                                     run.text = run.text.replace("TITULAR_TEXT", "titulares de las cédulas de identidad N°")
                                 if "IMP_CDIS" in run.text:
                                     cdi_items = []
-                                    for idx in range(config.n_acusseds):
-                                        if config.acusseds_data[idx]["documented"] == "NO":
+                                    for idx in range(data.n_acusseds):
+                                        if data.acusseds_data[idx]["documented"] == "NO":
                                             continue
                                         else:
-                                            cdi_items.append(f"{config.acusseds_data[idx]['nationality'].strip().upper()}-{config.acusseds_data[idx]["cdi"].strip().upper()}")
+                                            cdi_items.append(f"{data.acusseds_data[idx]['nationality'].strip().upper()}-{data.acusseds_data[idx]["cdi"].strip().upper()}")
                                     run.text = run.text.replace("IMP_CDIS", f"{formatter(cdi_items)}")
                                 if "RESPECTIVELY_TEXT" in run.text:
                                     run.text = run.text.replace("RESPECTIVELY_TEXT", "respectivamente")
                                 if "RESPECTIVELY_CR_TEXT" in run.text:
                                     run.text = run.text.replace("RESPECTIVELY_CR_TEXT", "respectivamente")
-                            if all(config.acusseds_data[i]["gender"] == "F" for i in range(config.n_acusseds)):
+                            if all(data.acusseds_data[i]["gender"] == "F" for i in range(data.n_acusseds)):
                                 if "del ciudadano" in run.text:
                                     run.text = run.text.replace("del ciudadano", "de las ciudadanas")
                                 if "al ciudadano" in run.text:
@@ -386,27 +388,27 @@ def export(self):
                                         messagebox.showerror("Error", f"No se pudo determinar el índice del imputado desde la ruta: {current_patch}")
                                         sys.exit()
 
-                                if config.acusseds_data[idx]["documented"] == "NO":
-                                    if config.acusseds_data[idx]["gender"] == "F":
+                                if data.acusseds_data[idx]["documented"] == "NO":
+                                    if data.acusseds_data[idx]["gender"] == "F":
                                         if "IMP_NAMES" in run.text:
-                                            run.text = run.text.replace("IMP_NAMES", config.acusseds_data[idx]["name"].strip().upper() + " (NO DOCUMENTADA)")
+                                            run.text = run.text.replace("IMP_NAMES", data.acusseds_data[idx]["name"].strip().upper() + " (NO DOCUMENTADA)")
                                     else:
                                         if "IMP_NAMES" in run.text:
-                                            run.text = run.text.replace("IMP_NAMES", config.acusseds_data[idx]["name"].strip().upper() + " (NO DOCUMENTADO)")
+                                            run.text = run.text.replace("IMP_NAMES", data.acusseds_data[idx]["name"].strip().upper() + " (NO DOCUMENTADO)")
                                     if "TITULAR_TEXT" in run.text:
                                         run.text = run.text.replace(", TITULAR_TEXT ", "")
                                     if "IMP_CDIS" in run.text:
                                         run.text = run.text.replace("IMP_CDIS", "")
                                 else:
                                     if "IMP_NAMES" in run.text:
-                                        run.text = run.text.replace("IMP_NAMES", config.acusseds_data[idx]["name"].strip().upper())
+                                        run.text = run.text.replace("IMP_NAMES", data.acusseds_data[idx]["name"].strip().upper())
                                     if "TITULAR_TEXT" in run.text:
                                         run.text = run.text.replace("TITULAR_TEXT", "titular de la cédula de identidad N°")
                                     if "IMP_CDIS" in run.text:
-                                        run.text = run.text.replace("IMP_CDIS", f"{config.acusseds_data[idx]["nationality"].strip().upper()}-{config.acusseds_data[idx]["cdi"].strip().upper()}")
-                                if config.acusseds_data[idx]["gender"] == "F":
+                                        run.text = run.text.replace("IMP_CDIS", f"{data.acusseds_data[idx]["nationality"].strip().upper()}-{data.acusseds_data[idx]["cdi"].strip().upper()}")
+                                if data.acusseds_data[idx]["gender"] == "F":
                                     if "IMP_PRISON" in run.text:
-                                        run.text = run.text.replace("IMP_PRISON", metadata["prisons"]["F"])
+                                        run.text = run.text.replace("IMP_PRISON", prison_metadata["F"])
                                     if "del ciudadano" in run.text:
                                         run.text = run.text.replace("del ciudadano", "de la ciudadana")
                                     if "al ciudadano" in run.text:
@@ -416,12 +418,12 @@ def export(self):
                                     if "al imputado" in run.text:
                                         run.text = run.text.replace("al imputado", "a la imputada")
                                 else:
-                                    run.text = run.text.replace("IMP_PRISON", metadata["prisons"]["M"])
+                                    run.text = run.text.replace("IMP_PRISON", prison_metadata["M"])
 
                         # --- Post-reemplazos tribunalicios ---
 
                         # --- QUINTO ---
-                        if data["judge"]["name"].startswith("CÉSAR"):
+                        if trib_metadata["judge"]["name"].startswith("CÉSAR"):
                             # Gramática
                             def replace_uppercase(match):
                                 word = match.group(0)

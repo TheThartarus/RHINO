@@ -3,7 +3,7 @@ from tkinter import messagebox
 
 from gui.style.style import Style
 from gui.sections.cop_data_field import cop_data_field
-import config
+import data
 
 current_acussed = 0
 def imp_data_fields(self):
@@ -103,7 +103,7 @@ def imp_data_fields(self):
             messagebox.showerror("Error", "Por favor, complete todos los campos.")
             return
 
-        config.acusseds_data.append({'name': name, 'cdi': cdi, 'gender': gender, 'documented': documented, 'nationality': nationality})
+        data.acusseds_data.append({'name': name, 'cdi': cdi, 'gender': gender, 'documented': documented, 'nationality': nationality})
 
         messagebox.showinfo("Éxito", "Imputado registrado correctamente.")
         new_window.destroy()
@@ -111,7 +111,7 @@ def imp_data_fields(self):
         global current_acussed
 
         current_acussed += 1
-        if current_acussed < config.n_acusseds:
+        if current_acussed < data.n_acusseds:
             imp_data_fields(self)
             new_window.destroy()
         else:

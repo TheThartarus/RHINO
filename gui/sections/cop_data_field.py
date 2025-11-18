@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import messagebox
 
 from gui.style.style import Style
-import config
+import data
 
 def cop_data_field(self):
     new_window = tk.Toplevel(self.root)
@@ -27,7 +27,7 @@ def cop_data_field(self):
 
     # Definir la función del 'Button' de 'ACEPTAR'
     def register():
-        config.cop_data = cop_data_text.get("1.0", "end-1c").strip()
+        data.cop_data = cop_data_text.get("1.0", "end-1c").strip()
 
         self.trib_optionmenu.config(state=tk.DISABLED)
         self.fisc_optionmenu.config(state=tk.DISABLED)

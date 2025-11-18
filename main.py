@@ -4,7 +4,7 @@ from gui.style.style import Style
 from gui.sections.exp_data_fields import exp_data_fields
 from gui.sections.show_about import show_about
 from export import export
-import config
+import data
 
 class RhinoApp:
     def __init__(self, root):
@@ -47,9 +47,9 @@ class RhinoApp:
         tk.Frame(self.root, height=2, bd=1, relief=tk.SUNKEN).grid(row=3, column=0, columnspan=2, pady=Style.pady, sticky="ew")
 
         def accept(self):
-            config.trib = self.trib.get()
-            config.fisc = self.fisc.get()
-            config.n_acusseds = int(self.n_acusseds.get())
+            data.trib = self.trib.get()
+            data.fisc = self.fisc.get()
+            data.n_acusseds = int(self.n_acusseds.get())
 
             exp_data_fields(self)
 
