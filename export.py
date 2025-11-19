@@ -108,15 +108,15 @@ def export(self):
             except UnicodeDecodeError:
                 continue
             except json.JSONDecodeError as e:
-                messagebox.showerror("Error", f"metadata.json inválido: {e}")
+                messagebox.showerror("Error", "metadata.json inválido: " + e)
                 sys.exit()
     except FileNotFoundError:
-        messagebox.showerror("Error", f"metadata.json no encontrado en: {metadata_path}")
+        messagebox.showerror("Error", "metadata.json no encontrado en: " + metadata_path)
         shutil.rmtree(rhino_folder)
         sys.exit()
 
     if metadata is None:
-        messagebox.showerror("Error", f"No se pudo leer metadata.json con las codificaciones probadas: {encodings}")
+        messagebox.showerror("Error", "No se pudo leer metadata.json con las codificaciones probadas: " + encodings)
         shutil.rmtree(rhino_folder)
         sys.exit()
 
@@ -145,7 +145,7 @@ def export(self):
         if len(items) == 1:
             return items[0]
         if len(items) == 2:
-            return f"{items[0]} y {items[1]}"
+            return str(items[0] + " y " + items[1])
         return ", ".join(items[:-1]) + " y " + items[-1]
 
     for current_patch, directories, files in os.walk(expedient_folder):
@@ -168,18 +168,18 @@ def export(self):
                             run.font.size = Pt(trib_metadata["FONT_SIZE"])
 
                         if "EXP_NAME" in run.text:
-                            run.text = run.text.replace("EXP_NAME", f"MP21-P-{str(today_date.year)}-{data.exp_number}")
+                            run.text = run.text.replace("EXP_NAME", "MP21-P-" + str(today_date.year) + "-" + data.exp_number)
                         if "EXP_LONG_DATE" in run.text:
-                            run.text = run.text.replace("EXP_LONG_DATE", f"{today_date.day} de {month_names[today_date.month]} de {today_date.year}")
+                            run.text = run.text.replace("EXP_LONG_DATE", str(today_date.day) + " de " + str(month_names[today_date.month]) + " de " + str(today_date.year))
                         if "YEAR" in run.text:
                             run.text = run.text.replace("YEAR", str(today_date.year))
                         if "DAYS" in run.text:
                             if trib_metadata["judge"]["name"].startswith("LISSETH"):
-                                run.text = run.text.replace("DAYS", f"{ind_year_diff + 1}° y {fed_year_diff}°")
+                                run.text = run.text.replace("DAYS", str((ind_year_diff + 1)) + "°" + " y " + str(fed_year_diff) + "°")
                             else:
-                                run.text = run.text.replace("DAYS", f"{ind_year_diff + 1}°, {fed_year_diff}° y {rev_year_diff}°")
+                                run.text = run.text.replace("DAYS", str((ind_year_diff + 1)) + "°, " + str(fed_year_diff) + "°" + " y " + str(rev_year_diff) + "°")
                         if "EXP_SHORT_DATE" in run.text:
-                            run.text = run.text.replace("EXP_SHORT_DATE", f"{today_date.day}/{today_date.month}/{today_date.year}")
+                            run.text = run.text.replace("EXP_SHORT_DATE", str(today_date.day) + "/" + str(today_date.month) + "/" + str(today_date.year))
                         if "TRB_LONG_NUM_MAYUS" in run.text:
                             run.text = run.text.replace("TRB_LONG_NUM_MAYUS", trib_metadata["TRB_LONG_NUM_MAYUS"])
                         if "TRB_LONG_NUM_MINUS" in run.text:
@@ -262,7 +262,7 @@ def export(self):
                                 if "TITULAR_TEXT" in run.text:
                                     run.text = run.text.replace(" TITULAR_TEXT ", " titular de la cédula de identidad N° ")
                                 if "IMP_CDIS" in run.text:
-                                    run.text = run.text.replace("IMP_CDIS", f"{data.acusseds_data[0]['nationality'].strip().upper()}-{data.acusseds_data[0]["cdi"].strip().upper()}")
+                                    run.text = run.text.replace("IMP_CDIS", data.acusseds_data[0]['nationality'].strip().upper() + "-" + data.acusseds_data[0]["cdi"].strip().upper())
                                 if "RESPECTIVELY_TEXT" in run.text:
                                     run.text = run.text.replace(" RESPECTIVELY_TEXT", "")
                                 if "RESPECTIVELY_CR_TEXT" in run.text:
@@ -314,9 +314,9 @@ def export(self):
                                             continue
                                         else:
                                             if "CARÁTULA" in file:
-                                                run.text = run.text.replace("IMP_CDIS", f"{data.acusseds_data[idx]['nationality'].strip().upper()}-{data.acusseds_data[idx]["cdi"].strip().upper()}")
+                                                run.text = run.text.replace("IMP_CDIS", data.acusseds_data[idx]['nationality'].strip().upper() + "-" + data.acusseds_data[idx]["cdi"].strip().upper())
                                             else:
-                                                run.text = run.text.replace("IMP_CDIS", f"{data.acusseds_data[idx]['nationality'].strip().upper()}-{data.acusseds_data[idx]["cdi"].strip().upper()},")
+                                                run.text = run.text.replace("IMP_CDIS", data.acusseds_data[idx]['nationality'].strip().upper() + "-" + data.acusseds_data[idx]["cdi"].strip().upper() + ",")
                                 if "RESPECTIVELY_TEXT" in run.text:
                                     run.text = run.text.replace(" RESPECTIVELY_TEXT,", "")
                                 if "RESPECTIVELY_CR_TEXT" in run.text:
@@ -330,7 +330,7 @@ def export(self):
                                         if data.acusseds_data[idx]["documented"] == "NO":
                                             continue
                                         else:
-                                            cdi_items.append(f"{data.acusseds_data[idx]['nationality'].strip().upper()}-{data.acusseds_data[idx]["cdi"].strip().upper()}")
+                                            cdi_items.append(data.acusseds_data[idx]['nationality'].strip().upper() + "-" + data.acusseds_data[idx]["cdi"].strip().upper())
                                     run.text = run.text.replace("IMP_CDIS", f"{formatter(cdi_items)}")
                                 if "RESPECTIVELY_TEXT" in run.text:
                                     run.text = run.text.replace("RESPECTIVELY_TEXT", "respectivamente")
@@ -385,7 +385,7 @@ def export(self):
                                     try:
                                         idx = int(penult.split(" - ")[0])
                                     except Exception:
-                                        messagebox.showerror("Error", f"No se pudo determinar el índice del imputado desde la ruta: {current_patch}")
+                                        messagebox.showerror("Error", "No se pudo determinar el índice del imputado desde la ruta: " + current_patch)
                                         sys.exit()
 
                                 if data.acusseds_data[idx]["documented"] == "NO":
@@ -405,7 +405,7 @@ def export(self):
                                     if "TITULAR_TEXT" in run.text:
                                         run.text = run.text.replace("TITULAR_TEXT", "titular de la cédula de identidad N°")
                                     if "IMP_CDIS" in run.text:
-                                        run.text = run.text.replace("IMP_CDIS", f"{data.acusseds_data[idx]["nationality"].strip().upper()}-{data.acusseds_data[idx]["cdi"].strip().upper()}")
+                                        run.text = run.text.replace("IMP_CDIS", data.acusseds_data[idx]["nationality"].strip().upper() + "-" + data.acusseds_data[idx]["cdi"].strip().upper())
                                 if data.acusseds_data[idx]["gender"] == "F":
                                     if "IMP_PRISON" in run.text:
                                         run.text = run.text.replace("IMP_PRISON", prison_metadata["F"])

@@ -8,7 +8,7 @@ import data
 current_acussed = 0
 def imp_data_fields(self):
     new_window = tk.Toplevel(self.root)
-    new_window.title(f"DATOS DEL IMPUTADO N° {current_acussed + 1}")
+    new_window.title("DATOS DEL IMPUTADO N° " + str(current_acussed + 1))
     new_window.iconbitmap("gui/style/rhino_icon.ico")
     new_window.geometry("+{}+{}".format(self.root.winfo_x() + 100, self.root.winfo_y() + 100))
     new_window.geometry("665x340")
