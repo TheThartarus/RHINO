@@ -227,8 +227,11 @@ def export(self):
                                 run.text = run.text.replace("FIS_NUM_MAYUS", "VIGÉSIMA SEGUNDA (22°)")
                             if "FIS_NUM_MINUS" in run.text:
                                 run.text = run.text.replace("FIS_NUM_MINUS", "Vigésima Segunda (22°)")
-                        else:
-                            pass
+                        elif data.fisc == "23°":
+                            if "FIS_NUM_MAYUS" in run.text:
+                                run.text = run.text.replace("FIS_NUM_MAYUS", "VIGÉSIMA TERCERA (23°)")
+                            if "FIS_NUM_MINUS" in run.text:
+                                run.text = run.text.replace("FIS_NUM_MINUS", "Vigésima Tercera (23°)")
                         if "IMP_COP" in run.text:
                             if not data.cop_data.strip():
                                 pass

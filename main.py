@@ -34,7 +34,7 @@ class RhinoApp:
         # Desplegar el 'OptionMenu' de 'FISCALÍA'
         self.fisc = tk.StringVar(self.root)
         self.fisc.set("FLAGRANCIA")
-        self.fisc_optionmenu = tk.OptionMenu(self.root, self.fisc, "FLAGRANCIA", "27°", "26°", "22°")
+        self.fisc_optionmenu = tk.OptionMenu(self.root, self.fisc, "FLAGRANCIA", "27°", "26°", "23°", "22°")
         self.fisc_optionmenu.grid(row=1, column=1, pady=Style.pady, padx=Style.padx, sticky="ew")
 
         # Desplegar el 'OptionMenu' de 'N° DE IMPUTADOS'
