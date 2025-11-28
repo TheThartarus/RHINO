@@ -96,7 +96,9 @@ def imp_data_fields(self):
             pass
 
         if documented == "SÍ" and cdi and "." not in cdi:
-            if len(cdi) == 8:
+            if len(cdi) == 9:
+                cdi = cdi[:3] + "." + cdi[3:6] + "." + cdi[6:]
+            elif len(cdi) == 8:
                 cdi = cdi[:2] + "." + cdi[2:5] + "." + cdi[5:]
             elif len(cdi) == 7:
                 cdi = cdi[:1] + "." + cdi[1:4] + "." + cdi[4:]
