@@ -27,26 +27,50 @@ def export(self):
     REV_DAY = date(1999, 2, 2)
     rev_year_diff = today_date.year - REV_DAY.year
 
-    if (today_date.month, today_date.day) < (IND_DAY.month, IND_DAY.day):
+    if (today_date.month,
+        today_date.day) < (IND_DAY.month,
+                           IND_DAY.day):
         ind_year_diff -= 1
-    if (today_date.month, today_date.day) < (FED_DAY.month, FED_DAY.day):
+    if (today_date.month,
+        today_date.day) < (FED_DAY.month,
+                           FED_DAY.day):
         fed_year_diff -= 1
-    if (today_date.month, today_date.day) < (REV_DAY.month, REV_DAY.day):
+    if (today_date.month,
+        today_date.day) < (REV_DAY.month,
+                           REV_DAY.day):
         rev_year_diff -= 1
 
     # Deshabilitar EXPORTAR mientras se crea el expediente
     self.export_button.config(state=tk.DISABLED)
 
     # Crear la carpeta Rhino en la carpeta Documentos si no existe
-    user_documents = os.path.join(os.path.expanduser("~"), "Documents")
-    rhino_folder = os.path.join(user_documents, "Rhino")
-    os.makedirs(rhino_folder, exist_ok=True)
+    user_documents = os.path.join(
+        os.path.expanduser("~"),
+        "Documents"
+    )
+    rhino_folder = os.path.join(
+        user_documents,
+        "Rhino"
+    )
+    os.makedirs(
+        rhino_folder,
+        exist_ok=True
+    )
 
     # Extraer el archivo MODELS.zip en la carpeta Rhino
     try:
-        user_desktop = os.path.join(os.path.expanduser("~"), "Desktop")
-        zip_path = os.path.join(user_desktop, "MODELS.zip")
-        with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+        user_desktop = os.path.join(
+            os.path.expanduser("~"),
+            "Desktop"
+        )
+        zip_path = os.path.join(
+            user_desktop,
+            "MODELS.zip"
+        )
+        with zipfile.ZipFile(
+            zip_path,
+            'r'
+        ) as zip_ref:
             zip_ref.extractall(rhino_folder)
     except FileNotFoundError:
         messagebox.showerror(
@@ -64,36 +88,90 @@ def export(self):
         sys.exit()
 
     # Crear carpeta del expediente en el escritorio
-    expedient_name = str(today_date.year) + "-" + data.exp_number
-    expedient_folder = os.path.join(user_desktop, expedient_name)
-    os.makedirs(expedient_folder, exist_ok=True)
+    expedient_name = str(today_date.year)+ "-" + data.exp_number
+    expedient_folder = os.path.join(
+        user_desktop,
+        expedient_name
+    )
+    os.makedirs(
+        expedient_folder,
+        exist_ok=True
+    )
 
     # Crear carpeta DECISIÓN en la carpeta del expediente
-    ticket_folder = os.path.join(expedient_folder, "DECISIÓN")
-    os.makedirs(ticket_folder, exist_ok=True)
+    ticket_folder = os.path.join(
+        expedient_folder,
+        "DECISIÓN"
+    )
+    os.makedirs(
+        ticket_folder,
+        exist_ok=True
+    )
 
     # Copiar la carpeta ENTRADA a la carpeta del expediente
-    decision_src = os.path.join(rhino_folder, "MODELS", "ENTRADA")
-    decision_dst = os.path.join(expedient_folder, "ENTRADA")
-    shutil.copytree(decision_src, decision_dst)
+    decision_src = os.path.join(
+        rhino_folder,
+        "MODELS",
+        "ENTRADA"
+    )
+    decision_dst = os.path.join(
+        expedient_folder,
+        "ENTRADA"
+    )
+    shutil.copytree(
+        decision_src,
+        decision_dst
+    )
 
     # Copiar la carpeta OFICIOS (GRUPALES) a la carpeta del expediente
-    offices_src = os.path.join(rhino_folder, "MODELS", "OFICIOS (GRUPALES)")
-    offices_dst = os.path.join(expedient_folder, "OFICIOS (GRUPALES)")
-    shutil.copytree(offices_src, offices_dst)
+    offices_src = os.path.join(
+        rhino_folder,
+        "MODELS",
+        "OFICIOS (GRUPALES)"
+    )
+    offices_dst = os.path.join(
+        expedient_folder,
+        "OFICIOS (GRUPALES)"
+    )
+    shutil.copytree(
+        offices_src,
+        offices_dst
+    )
 
     # Copiar la carpeta BOLETAS (GRUPALES) a la carpeta del expediente
-    tickets_src = os.path.join(rhino_folder, "MODELS", "BOLETAS (GRUPALES)")
-    tickets_dst = os.path.join(expedient_folder, "BOLETAS (GRUPALES)")
-    shutil.copytree(tickets_src, tickets_dst)
+    tickets_src = os.path.join(
+        rhino_folder,
+        "MODELS",
+        "BOLETAS (GRUPALES)"
+    )
+    tickets_dst = os.path.join(
+        expedient_folder,
+        "BOLETAS (GRUPALES)"
+    )
+    shutil.copytree(
+        tickets_src,
+        tickets_dst
+    )
 
     # Crear carpetas para cada imputado en la carpeta DECISIÓN
     for i in range(data.n_acusseds):
         acussed_name = data.acusseds_data[i]["name"].strip().upper().replace(" ", "_")
-        ticket_src = os.path.join(rhino_folder, "MODELS", "DECISIÓN")
+        ticket_src = os.path.join(
+            rhino_folder,
+            "MODELS",
+            "DECISIÓN"
+        )
         # Prefijo con número y guión: "0 - NOMBRE"
-        ticket_dst = os.path.join(ticket_folder, str(i) + " - " + acussed_name)
-        shutil.copytree(ticket_src, ticket_dst)
+        ticket_dst = os.path.join(
+            ticket_folder,
+            str(i)
+            + " - "
+            + acussed_name
+        )
+        shutil.copytree(
+            ticket_src,
+            ticket_dst
+        )
 
     # Cargar metadata.json desde la carpeta del ejecutable / main.py
     if getattr(sys, 'frozen', False):
@@ -103,7 +181,10 @@ def export(self):
         # Cuando se ejecuta como script, usar la carpeta del archivo actual
         app_dir = os.path.dirname(os.path.abspath(__file__))
 
-    metadata_path = os.path.join(app_dir, "metadata.json")
+    metadata_path = os.path.join(
+        app_dir,
+        "metadata.json"
+    )
     encodings = ["utf-8",
                  "utf-8-sig",
                  "cp1252",
@@ -113,7 +194,11 @@ def export(self):
     try:
         for enc in encodings:
             try:
-                with open(metadata_path, 'r', encoding=enc) as f:
+                with open(
+                    metadata_path,
+                    'r',
+                    encoding=enc
+                ) as f:
                     metadata = json.load(f)
                 break
             except UnicodeDecodeError:
@@ -121,13 +206,15 @@ def export(self):
             except json.JSONDecodeError as e:
                 messagebox.showerror(
                     "Error",
-                    "metadata.json inválido: " + e
+                    "metadata.json inválido: "
+                    + e
                 )
                 sys.exit()
     except FileNotFoundError:
         messagebox.showerror(
             "Error",
-            "metadata.json no encontrado en: " + metadata_path
+            "metadata.json no encontrado en: "
+            + metadata_path
         )
         shutil.rmtree(rhino_folder)
         sys.exit()
@@ -171,10 +258,13 @@ def export(self):
             return str(items[0] + " y " + items[1])
         return ", ".join(items[:-1]) + " y " + items[-1]
 
-    for current_patch, directories, files in os.walk(expedient_folder):
+    for current_patch, files in os.walk(expedient_folder):
         for file in files:
-            if file.endswith(".docx") and not file.startswith('~'):
-                doc_path = os.path.join(current_patch, file)
+            if file.endswith(".docx")and not file.startswith('~'):
+                doc_path = os.path.join(
+                    current_patch,
+                    file
+                )
                 doc = Document(doc_path)
                 for para in doc.paragraphs:
                     for run in para.runs:
