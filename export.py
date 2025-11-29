@@ -64,7 +64,7 @@ def export(self):
         sys.exit()
 
     # Crear carpeta del expediente en el escritorio
-    expedient_name = f"{str(today_date.year)}-{data.exp_number}"
+    expedient_name = str(today_date.year) + "-" + data.exp_number
     expedient_folder = os.path.join(user_desktop, expedient_name)
     os.makedirs(expedient_folder, exist_ok=True)
 
@@ -92,7 +92,7 @@ def export(self):
         acussed_name = data.acusseds_data[i]["name"].strip().upper().replace(" ", "_")
         ticket_src = os.path.join(rhino_folder, "MODELS", "DECISIÓN")
         # Prefijo con número y guión: "0 - NOMBRE"
-        ticket_dst = os.path.join(ticket_folder, f"{i} - {acussed_name}")
+        ticket_dst = os.path.join(ticket_folder, str(i) + " - " + acussed_name)
         shutil.copytree(ticket_src, ticket_dst)
 
     # Cargar metadata.json desde la carpeta del ejecutable / main.py
@@ -578,7 +578,7 @@ def export(self):
                                             )
                                     run.text = run.text.replace(
                                         "IMP_CDIS",
-                                        f"{formatter(cdi_items)}"
+                                        formatter(cdi_items)
                                     )
                                 if "RESPECTIVELY_TEXT" in run.text:
                                     run.text = run.text.replace(
