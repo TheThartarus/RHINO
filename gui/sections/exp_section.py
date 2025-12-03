@@ -91,7 +91,7 @@ def exp_data_fields(self):
         new_window.destroy()
 
     # Desplegar el 'Button' de 'ACEPTAR'
-    register_button = tk.Button(
+    accept_button = tk.Button(
         new_window,
         text="ACEPTAR",
         font=Style.button_font,
@@ -101,14 +101,14 @@ def exp_data_fields(self):
         activeforeground=Style.button_active_fg,
         command=register
     )
-    register_button.grid(
+    accept_button.grid(
         row=1,
         column=1,
         pady=Style.pady,
         padx=Style.padx,
         sticky="ew"
     )
-    register_button.bind(
+    accept_button.bind(
         "<Return>",
         lambda event: register()
     )

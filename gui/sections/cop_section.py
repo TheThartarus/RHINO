@@ -65,7 +65,7 @@ def cop_data_field(self):
     )
 
     # Definir la función del 'Button' de 'ACEPTAR'
-    def register():
+    def accept():
         data.cop_data = cop_data_text.get("1.0", "end-1c").strip()
 
         self.export_button.config(state=tk.NORMAL)
@@ -85,7 +85,7 @@ def cop_data_field(self):
         new_window.destroy()
 
     # Desplegar el 'Button' de 'ACEPTAR/SALTAR'
-    register_button = tk.Button(
+    accept_button = tk.Button(
         new_window,
         text="ACEPTAR/SALTAR",
         font=Style.button_font,
@@ -93,18 +93,18 @@ def cop_data_field(self):
         fg=Style.button_fg,
         activebackground=Style.button_active_bg,
         activeforeground=Style.button_active_fg,
-        command=register
+        command=accept
     )
-    register_button.grid(
+    accept_button.grid(
         row=2,
         column=3,
         pady=Style.pady,
         padx=Style.padx,
         sticky="ew"
     )
-    register_button.bind(
+    accept_button.bind(
         "<Return>",
-        lambda event: register()
+        lambda event: accept()
     )
 
 if __name__ == "__main__":

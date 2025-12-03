@@ -285,7 +285,7 @@ def imp_data_fields(self):
             cop_data_field(self)
 
     # Desplegar el 'Button' de 'REGISTRAR'
-    accept_button = tk.Button(
+    register_button = tk.Button(
         new_window,
         text="REGISTRAR",
         font=Style.button_font,
@@ -295,14 +295,14 @@ def imp_data_fields(self):
         activeforeground=Style.button_active_fg,
         command=register
     )
-    accept_button.grid(
+    register_button.grid(
         row=6,
         column=3,
         pady=Style.pady,
         padx=Style.padx,
         sticky="ew"
     )
-    accept_button.bind(
+    register_button.bind(
         "<Return>",
         lambda event: register()
     )
