@@ -2,12 +2,12 @@ import tkinter as tk
 from tkinter import messagebox
 
 from gui.style.style import Style
-from gui.sections.imp_data_fields import imp_data_fields
+from gui.sections.assis_section import assis_data_fields
 import data
 
-def assis_data_fields(self):
+def exp_data_fields(self):
     new_window = tk.Toplevel(self.root)
-    new_window.title("DATOS DEL ASISTENTE")
+    new_window.title("N° DE EXPEDIENTE")
     new_window.iconbitmap("gui/style/rhino_icon.ico")
     new_window.geometry(
         "+{}+{}".format(
@@ -17,17 +17,17 @@ def assis_data_fields(self):
             + 100
         )
     )
-    new_window.geometry("530x115")
-    new_window.resizable(False, False)
+    new_window.geometry("490x115")
+    new_window.resizable(True, True)
     new_window.grid_columnconfigure(3, weight=1)
 
-    # Desplegar el 'Label' de 'FIRMA DEL ASISTENTE'
-    assis_firm_label = tk.Label(
+    # Desplegar el 'Label' de 'N° DE EXPEDIENTE'
+    exp_number_label = tk.Label(
         new_window,
-        text="FIRMA DEL ASISTENTE",
+        text="N° DE EXPEDIENTE",
         font=Style.label_font
     )
-    assis_firm_label.grid(
+    exp_number_label.grid(
         row=0,
         column=0,
         pady=Style.pady,
@@ -35,51 +35,65 @@ def assis_data_fields(self):
         sticky="w"
     )
 
-    # Definir la función de validación para el 'Entry' de 'FIRMA'
-    def validate_firm_input(P):
-        if P == "" or all(char.isalpha()
-                          or char == "." for char in P): return True
+    # Definir la función de validación para el 'Entry' de 'N° DE EXPEDIENTE'
+    def validate_exp_number_input(P):
+        if P == "" or all(char.isdigit() for char in P): return True
         return False
 
-    # Desplegar el 'Entry' de 'FIRMA DEL ASISTENTE'
-    assis_firm_entry = tk.Entry(
+    # Desplegar el 'Entry' de 'N° DE EXPEDIENTE'
+    exp_number_entry = tk.Entry(
         new_window,
         font=Style.entry_font,
         validate="key"
     )
-    assis_firm_entry.grid(
+    exp_number_entry.grid(
         row=0,
         column=1,
         pady=Style.pady,
         padx=Style.padx,
         sticky="ew"
     )
-    assis_firm_entry['validatecommand'] = (
-        assis_firm_entry.register(validate_firm_input),
+    exp_number_entry['validatecommand'] = (
+        exp_number_entry.register(validate_exp_number_input),
         '%P'
     )
 
-    def register():
-        assis_firm = assis_firm_entry.get().strip()
+    # Desplegar el 'Label' de ejemplo de formato
+    format_label = tk.Label(
+        new_window,
+        text="EJEMPLO: 004523",
+        font=Style.label_font
+    )
+    format_label.grid(
+        row=1,
+        column=0,
+        pady=Style.pady,
+        padx=Style.padx,
+        sticky="w"
+    )
 
-        if not assis_firm:
+    def register():
+        exp_number = exp_number_entry.get().strip()
+
+        if not exp_number:
             messagebox.showerror(
                 "Error",
                 "Por favor, complete el campo."
             )
             return
 
-        data.assis_firm = assis_firm
+        data.exp_number = exp_number
         messagebox.showinfo(
             "Éxito",
-            "Firma del asistente registrada correctamente."
+            "Número de expediente registrado correctamente."
         )
-        imp_data_fields(self)
+        assis_data_fields(self)
         new_window.destroy()
 
     # Desplegar el 'Button' de 'ACEPTAR'
     register_button = tk.Button(
-        new_window, text="ACEPTAR",
+        new_window,
+        text="ACEPTAR",
         font=Style.button_font,
         bg=Style.button_bg,
         fg=Style.button_fg,
@@ -89,7 +103,7 @@ def assis_data_fields(self):
     )
     register_button.grid(
         row=1,
-        column=0,
+        column=1,
         pady=Style.pady,
         padx=Style.padx,
         sticky="ew"
@@ -102,5 +116,5 @@ def assis_data_fields(self):
 if __name__ == "__main__":
     root = tk.Tk()
     app = None
-    assis_data_fields(app)
+    exp_data_fields(app)
     root.mainloop()

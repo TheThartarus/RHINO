@@ -1,8 +1,8 @@
 import tkinter as tk
 
 from gui.style.style import Style
-from gui.sections.exp_data_fields import exp_data_fields
-from gui.sections.show_about import show_about
+from gui.sections.exp_section import exp_data_fields
+from gui.sections.about_section import show_about
 from export import export
 import data
 

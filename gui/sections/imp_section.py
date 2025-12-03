@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import messagebox
 
 from gui.style.style import Style
-from gui.sections.cop_data_field import cop_data_field
+from gui.sections.cop_section import cop_data_field
 import data
 
 current_acussed = 0
