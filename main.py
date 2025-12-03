@@ -1,8 +1,8 @@
 import tkinter as tk
 
 from gui.style.style import Style
-from gui.sections.exp_section import exp_data_fields
-from gui.sections.about_section import show_about
+from gui.sections.exp_section import exp_section
+from gui.sections.about_section import about_section
 from export import export
 import data
 
@@ -136,7 +136,7 @@ class RhinoApp:
             data.fisc = self.fisc.get()
             data.n_acusseds = int(self.n_acusseds.get())
 
-            exp_data_fields(self)
+            exp_section(self)
 
         # Desplegar el 'Button' de 'ACEPTAR'
         self.accept_button = tk.Button(
@@ -187,7 +187,7 @@ class RhinoApp:
             fg=Style.button_fg,
             activebackground=Style.button_active_bg,
             activeforeground=Style.button_active_fg,
-            command=lambda: show_about(self)
+            command=lambda: about_section(self)
         )
         self.about_button.grid(
             row=5,

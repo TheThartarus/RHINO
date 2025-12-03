@@ -2,11 +2,11 @@ import tkinter as tk
 from tkinter import messagebox
 
 from gui.style.style import Style
-from gui.sections.cop_section import cop_data_field
+from gui.sections.cop_section import cop_section
 import data
 
 current_acussed = 0
-def imp_data_fields(self):
+def imp_section(self):
     new_window = tk.Toplevel(self.root)
     new_window.title("DATOS DEL IMPUTADO N° " + str(current_acussed + 1))
     new_window.iconbitmap("gui/style/rhino_icon.ico")
@@ -275,14 +275,14 @@ def imp_data_fields(self):
 
         current_acussed += 1
         if current_acussed < data.n_acusseds:
-            imp_data_fields(self)
+            imp_section(self)
             new_window.destroy()
         else:
             messagebox.showinfo(
                 "Éxito",
                 "Todos los imputados han sido registrados."
             )
-            cop_data_field(self)
+            cop_section(self)
 
     # Desplegar el 'Button' de 'REGISTRAR'
     register_button = tk.Button(
@@ -320,5 +320,5 @@ def imp_data_fields(self):
 if __name__ == "__main__":
     root = tk.Tk()
     app = None
-    imp_data_fields(app)
+    imp_section(app)
     root.mainloop()

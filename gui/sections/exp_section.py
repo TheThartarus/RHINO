@@ -2,10 +2,10 @@ import tkinter as tk
 from tkinter import messagebox
 
 from gui.style.style import Style
-from gui.sections.assis_section import assis_data_fields
+from gui.sections.assis_section import assis_section
 import data
 
-def exp_data_fields(self):
+def exp_section(self):
     new_window = tk.Toplevel(self.root)
     new_window.title("N° DE EXPEDIENTE")
     new_window.iconbitmap("gui/style/rhino_icon.ico")
@@ -87,7 +87,7 @@ def exp_data_fields(self):
             "Éxito",
             "Número de expediente registrado correctamente."
         )
-        assis_data_fields(self)
+        assis_section(self)
         new_window.destroy()
 
     # Desplegar el 'Button' de 'ACEPTAR'
@@ -112,5 +112,5 @@ def exp_data_fields(self):
 if __name__ == "__main__":
     root = tk.Tk()
     app = None
-    exp_data_fields(app)
+    exp_section(app)
     root.mainloop()

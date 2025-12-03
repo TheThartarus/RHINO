@@ -2,10 +2,10 @@ import tkinter as tk
 from tkinter import messagebox
 
 from gui.style.style import Style
-from gui.sections.imp_section import imp_data_fields
+from gui.sections.imp_section import imp_section
 import data
 
-def assis_data_fields(self):
+def assis_section(self):
     new_window = tk.Toplevel(self.root)
     new_window.title("DATOS DEL ASISTENTE")
     new_window.iconbitmap("gui/style/rhino_icon.ico")
@@ -74,7 +74,7 @@ def assis_data_fields(self):
             "Éxito",
             "Firma del asistente registrada correctamente."
         )
-        imp_data_fields(self)
+        imp_section(self)
         new_window.destroy()
 
     # Desplegar el 'Button' de 'ACEPTAR'
@@ -98,5 +98,5 @@ def assis_data_fields(self):
 if __name__ == "__main__":
     root = tk.Tk()
     app = None
-    assis_data_fields(app)
+    assis_section(app)
     root.mainloop()

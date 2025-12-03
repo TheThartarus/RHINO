@@ -2,7 +2,7 @@ import tkinter as tk
 
 from gui.style.style import Style
 
-def show_about(self):
+def about_section(self):
     new_window = tk.Toplevel(self.root)
     new_window.title("ACERCA DE RHINO")
     new_window.iconbitmap("gui/style/rhino_icon.ico")
@@ -47,5 +47,5 @@ def show_about(self):
 if __name__ == "__main__":
     root = tk.Tk()
     app = None
-    show_about()
+    about_section()
     root.mainloop()

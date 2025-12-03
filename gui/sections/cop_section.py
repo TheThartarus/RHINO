@@ -4,7 +4,7 @@ from tkinter import messagebox
 from gui.style.style import Style
 import data
 
-def cop_data_field(self):
+def cop_section(self):
     new_window = tk.Toplevel(self.root)
     new_window.title("DATOS DEL ÓRGANO APREHENSOR")
     new_window.iconbitmap("gui/style/rhino_icon.ico")
@@ -106,5 +106,5 @@ def cop_data_field(self):
 if __name__ == "__main__":
     root = tk.Tk()
     app = None
-    cop_data_field(app)
+    cop_section(app)
     root.mainloop()
