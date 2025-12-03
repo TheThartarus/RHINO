@@ -302,10 +302,6 @@ def imp_data_fields(self):
         padx=Style.padx,
         sticky="ew"
     )
-    register_button.bind(
-        "<Return>",
-        lambda event: register()
-    )
 
     def toggle_cdi(*args):
         if documented_var.get() == "NO":

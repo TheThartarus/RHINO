@@ -94,10 +94,6 @@ def assis_data_fields(self):
         padx=Style.padx,
         sticky="ew"
     )
-    accept_button.bind(
-        "<Return>",
-        lambda event: register()
-    )
 
 if __name__ == "__main__":
     root = tk.Tk()

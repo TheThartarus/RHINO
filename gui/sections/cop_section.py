@@ -102,10 +102,6 @@ def cop_data_field(self):
         padx=Style.padx,
         sticky="ew"
     )
-    accept_button.bind(
-        "<Return>",
-        lambda event: accept()
-    )
 
 if __name__ == "__main__":
     root = tk.Tk()
