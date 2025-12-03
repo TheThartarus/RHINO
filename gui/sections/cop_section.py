@@ -20,7 +20,7 @@ def cop_section(self):
     new_window.resizable(True, True)
     new_window.grid_columnconfigure(3, weight=1)
 
-    # Desplegar el 'Label' de 'NOMBRE Y DIRECCIÓN DEL ÓRGANO APREHENSOR'
+    # Desplegar los Labels
     cop_data_label = tk.Label(
         new_window,
         text="NOMBRE Y DIRECCIÓN DEL ÓRGANO APREHENSOR (OPCIONAL)",
@@ -34,7 +34,6 @@ def cop_section(self):
         sticky="w"
     )
 
-    # Desplegar el 'Label' de 'INCLUIR...'
     cop_data_label = tk.Label(
         new_window,
         text="INCLUIR 'DIRECTOR DEL...' O 'JEFE DEL...'",
@@ -48,7 +47,7 @@ def cop_section(self):
         sticky="w"
     )
 
-    # Desplegar el 'Text' de 'NOMBRE Y DIRECCIÓN DEL ÓRGANO APREHENSOR'
+    # Desplegar el Text de NOMBRE Y DIRECCIÓN...
     cop_data_text = tk.Text(
         new_window,
         font=Style.entry_font,
@@ -64,7 +63,6 @@ def cop_section(self):
         sticky="ew"
     )
 
-    # Definir la función del 'Button' de 'ACEPTAR'
     def accept():
         data.cop_data = cop_data_text.get("1.0", "end-1c").strip()
 
@@ -78,13 +76,15 @@ def cop_section(self):
             "Éxito",
             "Datos del órgano aprehensor registrados correctamente."
         )
+
         messagebox.showinfo(
             "Éxito",
             "Todos los datos han sido registrados correctamente."
         )
+
         new_window.destroy()
 
-    # Desplegar el 'Button' de 'ACEPTAR/SALTAR'
+    # Desplegar el Button de ACEPTAR/SALTAR
     accept_button = tk.Button(
         new_window,
         text="ACEPTAR/SALTAR",

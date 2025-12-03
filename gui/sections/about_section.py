@@ -18,7 +18,7 @@ def about_section(self):
     new_window.resizable(False, False)
     new_window.grid_columnconfigure(3, weight=1)
 
-    # Desplegar el 'Label' con la información de la aplicación
+    # Desplegar el Label con la información de la aplicación
     about_text = "Rhino 1.5.1" \
     "\n\nDesarrollado por: TheThartarus" \
     "\n\n\n\n© 2025 Todos los derechos reservados"
@@ -31,7 +31,7 @@ def about_section(self):
     )
     about_label.pack(expand=True)
 
-    # Desplegar el 'Button' de 'CERRAR'
+    # Desplegar el Button de CERRAR
     close_button = tk.Button(
         new_window,
         text="CERRAR",

@@ -21,7 +21,7 @@ def exp_section(self):
     new_window.resizable(True, True)
     new_window.grid_columnconfigure(3, weight=1)
 
-    # Desplegar el 'Label' de 'N° DE EXPEDIENTE'
+    # Desplegar los Labels
     exp_number_label = tk.Label(
         new_window,
         text="N° DE EXPEDIENTE",
@@ -35,12 +35,25 @@ def exp_section(self):
         sticky="w"
     )
 
-    # Definir la función de validación para el 'Entry' de 'N° DE EXPEDIENTE'
+    format_label = tk.Label(
+        new_window,
+        text="EJEMPLO: 004523",
+        font=Style.label_font
+    )
+    format_label.grid(
+        row=1,
+        column=0,
+        pady=Style.pady,
+        padx=Style.padx,
+        sticky="w"
+    )
+
+    # Definir la función de validación para el Entry de N° DE EXPEDIENTE
     def validate_exp_number_input(P):
         if P == "" or all(char.isdigit() for char in P): return True
         return False
 
-    # Desplegar el 'Entry' de 'N° DE EXPEDIENTE'
+    # Desplegar el Entry de N° DE EXPEDIENTE
     exp_number_entry = tk.Entry(
         new_window,
         font=Style.entry_font,
@@ -58,20 +71,6 @@ def exp_section(self):
         '%P'
     )
 
-    # Desplegar el 'Label' de ejemplo de formato
-    format_label = tk.Label(
-        new_window,
-        text="EJEMPLO: 004523",
-        font=Style.label_font
-    )
-    format_label.grid(
-        row=1,
-        column=0,
-        pady=Style.pady,
-        padx=Style.padx,
-        sticky="w"
-    )
-
     def register():
         exp_number = exp_number_entry.get().strip()
 
@@ -83,14 +82,16 @@ def exp_section(self):
             return
 
         data.exp_number = exp_number
+
         messagebox.showinfo(
             "Éxito",
             "Número de expediente registrado correctamente."
         )
+
         assis_section(self)
         new_window.destroy()
 
-    # Desplegar el 'Button' de 'ACEPTAR'
+    # Desplegar el Button de ACEPTAR
     accept_button = tk.Button(
         new_window,
         text="ACEPTAR",

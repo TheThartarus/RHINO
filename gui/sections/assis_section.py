@@ -21,7 +21,7 @@ def assis_section(self):
     new_window.resizable(False, False)
     new_window.grid_columnconfigure(3, weight=1)
 
-    # Desplegar el 'Label' de 'FIRMA DEL ASISTENTE'
+    # Desplegar el Label de FIRMA
     assis_firm_label = tk.Label(
         new_window,
         text="FIRMA DEL ASISTENTE",
@@ -35,13 +35,13 @@ def assis_section(self):
         sticky="w"
     )
 
-    # Definir la función de validación para el 'Entry' de 'FIRMA'
+    # Definir la función de validación para el Entry de FIRMA
     def validate_firm_input(P):
         if P == "" or all(char.isalpha()
                           or char == "." for char in P): return True
         return False
 
-    # Desplegar el 'Entry' de 'FIRMA DEL ASISTENTE'
+    # Desplegar el Entry de FIRMA
     assis_firm_entry = tk.Entry(
         new_window,
         font=Style.entry_font,
@@ -70,14 +70,16 @@ def assis_section(self):
             return
 
         data.assis_firm = assis_firm
+
         messagebox.showinfo(
             "Éxito",
             "Firma del asistente registrada correctamente."
         )
+
         imp_section(self)
         new_window.destroy()
 
-    # Desplegar el 'Button' de 'ACEPTAR'
+    # Desplegar el Button de ACEPTAR
     accept_button = tk.Button(
         new_window, text="ACEPTAR",
         font=Style.button_font,

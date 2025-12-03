@@ -15,7 +15,7 @@ class RhinoApp:
         self.root.resizable(False, False)
         self.root.grid_columnconfigure(0, weight=1)
 
-        # Desplegar los 'Labels'
+        # Desplegar los Labels
         self.trib_label = tk.Label(
             self.root,
             text="TRIBUNAL",
@@ -55,7 +55,7 @@ class RhinoApp:
             sticky="w"
         )
 
-        # Desplegar el 'OptionMenu' de 'TRIBUNAL'
+        # Desplegar los OptionMenu
         self.trib = tk.StringVar(self.root)
         self.trib.set("CONTROL 1")
         self.trib_optionmenu = tk.OptionMenu(
@@ -75,7 +75,6 @@ class RhinoApp:
             sticky="ew"
         )
 
-        # Desplegar el 'OptionMenu' de 'FISCALÍA'
         self.fisc = tk.StringVar(self.root)
         self.fisc.set("FLAGRANCIA")
         self.fisc_optionmenu = tk.OptionMenu(
@@ -95,7 +94,6 @@ class RhinoApp:
             sticky="ew"
         )
 
-        # Desplegar el 'OptionMenu' de 'N° DE IMPUTADOS'
         self.n_acusseds = tk.StringVar(self.root)
         self.n_acusseds.set("1")
         self.n_acusseds_optionmenu = tk.OptionMenu(
@@ -149,7 +147,6 @@ class RhinoApp:
             activeforeground=Style.button_active_fg,
             command=lambda: accept(self)
         )
-
         self.accept_button.grid(
             row=4,
             column=1,

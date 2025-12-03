@@ -22,7 +22,7 @@ def imp_section(self):
     new_window.resizable(False, False)
     new_window.grid_columnconfigure(3, weight=1)
 
-    # Desplegar los 'Labels'
+    # Desplegar los Labels
     name_label = tk.Label(
         new_window,
         text="NOMBRE",
@@ -88,13 +88,13 @@ def imp_section(self):
         sticky="w"
     )
 
-    # Definir la función de validación para el 'Entry' de 'NOMBRE'
+    # Definir la función de validación para el Entry de NOMBRE
     def validate_name_input(P):
         if P == "" or all(char.isalpha()
                           or char.isspace() for char in P): return True
         return False
 
-    # Desplegar y validar el 'Entry' de 'NOMBRE'
+    # Desplegar y validar el Entry de NOMBRE
     name_entry = tk.Entry(
         new_window,
         font=Style.entry_font,
@@ -113,7 +113,7 @@ def imp_section(self):
         '%P'
     )
 
-    # Desplegar el 'OptionMenu' de 'DOCUMENTADO'
+    # Desplegar el OptionMenu de DOCUMENTADO
     documented_var = tk.StringVar(new_window)
     documented_var.set("SÍ")
     documented_menu = tk.OptionMenu(
@@ -130,7 +130,7 @@ def imp_section(self):
         sticky="ew"
     )
 
-    # Desplegar el 'OptionMenu' de 'VENEZOLANO O EXTRANJERO'
+    # Desplegar el OptionMenu de VENEZOLANO O EXTRANJERO
     nationality_var = tk.StringVar(new_window)
     nationality_var.set("VENEZOLANO")
     nationality_menu = tk.OptionMenu(
@@ -147,13 +147,13 @@ def imp_section(self):
         sticky="ew"
     )
 
-    # Definir la función de validación para el 'Entry' de 'CDI'
+    # Definir la función de validación para el Entry de CDI
     def validate_cdi_input(P):
         if P == "" or all(char.isdigit()
                           or char == "." for char in P): return True
         return False
     
-    # Desplegar y validar el 'Entry' de 'CDI'
+    # Desplegar y validar el Entry de CDI
     cdi_entry = tk.Entry(
         new_window,
         font=Style.entry_font,
@@ -172,7 +172,7 @@ def imp_section(self):
         '%P'
     )
 
-    # Desplegar el 'OptionMenu' de 'SEXO'
+    # Desplegar el OptionMenu de SEXO
     gender_var = tk.StringVar(new_window)
     gender_var.set("SELECCIONAR")
     gender_menu = tk.OptionMenu(
@@ -214,7 +214,6 @@ def imp_section(self):
             sticky="ew"
         )
 
-    # Definir la función del 'Button' de 'REGISTRAR'
     def register():
         name = name_entry.get().strip()
         cdi = cdi_entry.get().strip()
@@ -248,31 +247,29 @@ def imp_section(self):
         if documented == "NO":
             cdi = ""
 
-        if not name.strip() or (documented == "SÍ"
-            and not cdi.strip()) or gender == "SELECCIONAR":
+        if not name.strip() or (documented == "SÍ" and not cdi.strip()) or gender == "SELECCIONAR":
             messagebox.showerror(
                 "Error",
                 "Por favor, complete todos los campos."
             )
             return
 
-        data.acusseds_data.append({
+        data.acusseds_data.append(
+            {
             'name': name,
             'cdi': cdi,
             'gender': gender,
             'documented': documented,
             'nationality': nationality
-        }
+            }
         )
 
         messagebox.showinfo(
             "Éxito",
             "Imputado registrado correctamente."
         )
-        new_window.destroy()
 
         global current_acussed
-
         current_acussed += 1
         if current_acussed < data.n_acusseds:
             imp_section(self)
@@ -282,9 +279,11 @@ def imp_section(self):
                 "Éxito",
                 "Todos los imputados han sido registrados."
             )
-            cop_section(self)
 
-    # Desplegar el 'Button' de 'REGISTRAR'
+            cop_section(self)
+            new_window.destroy()
+
+    # Desplegar el Button de REGISTRAR
     register_button = tk.Button(
         new_window,
         text="REGISTRAR",
@@ -304,6 +303,9 @@ def imp_section(self):
     )
 
     def toggle_cdi(*args):
+        """
+        Si no está documentado, limpiar y desactivar el Entry de CDI
+        """
         if documented_var.get() == "NO":
             cdi_entry.delete(0, tk.END)
             cdi_entry.config(state=tk.DISABLED)
