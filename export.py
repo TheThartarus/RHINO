@@ -282,16 +282,18 @@ def export(self):
                             year_diffs
                         )
 
-                        if (any(i in current_patch for i in group_folders_names) and
-                            (data.n_acusseds == 1)):
+                        if (any(i in current_patch for
+                                i in group_folders_names) and
+                                (data.n_acusseds == 1)):
                             single_acussed_replacements(
                                 self,
                                 file,
                                 run,
                         )
 
-                        if (any(i in current_patch for i in group_folders_names) and
-                            (data.n_acusseds > 1)):
+                        if (any(i in current_patch for
+                                i in group_folders_names) and
+                                (data.n_acusseds > 1)):
                             several_acusseds_replacements(
                                 self,
                                 file,
