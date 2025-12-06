@@ -23,7 +23,7 @@ def formatter(items):
         return str(items[0] + " y " + items[1])
     return ", ".join(items[:-1]) + " y " + items[-1]
 
-def all_replaces(
+def all_replacements(
         self,
         file,
         current_patch,

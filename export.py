@@ -8,7 +8,7 @@ import zipfile
 import json
 import sys
 
-from replaces.all_replaces import all_replaces
+from replaces.all_replacements import all_replacements
 import data
 
 def export(self):
@@ -256,7 +256,7 @@ def export(self):
                 doc = Document(doc_path)
                 for para in doc.paragraphs:
                     for run in para.runs:
-                        all_replaces(
+                        all_replacements(
                             self,
                             file,
                             current_patch,
