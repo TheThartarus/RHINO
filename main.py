@@ -136,7 +136,7 @@ class RhinoApp:
 
             exp_section(self)
 
-        # Desplegar el 'Button' de 'ACEPTAR'
+        # Desplegar el Button de ACEPTAR
         self.accept_button = tk.Button(
             self.root,
             text="ACEPTAR",
@@ -155,7 +155,7 @@ class RhinoApp:
             sticky="ew"
         )
 
-        # Desplegar el 'Button' de 'EXPORTAR'
+        # Desplegar el Button de EXPORTAR
         self.export_button = tk.Button(
             self.root,
             text="EXPORTAR",
@@ -175,7 +175,7 @@ class RhinoApp:
             sticky="ew"
         )
 
-        # Desplegar el 'Button' de 'ACERCA DE RHINO'
+        # Desplegar el Button de ACERCA DE RHINO
         self.about_button = tk.Button(
             self.root,
             text="ACERCA DE RHINO",
