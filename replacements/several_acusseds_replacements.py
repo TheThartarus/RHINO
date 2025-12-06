@@ -194,6 +194,11 @@ def several_acusseds_replacements(
                     "del imputado",
                     "de las imputadas"
                 )
+            if "los imputados" in run.text:
+                run.text = run.text.replace(
+                    "los imputados",
+                    "las imputadas"
+                )
         else:
             if "del ciudadano" in run.text:
                 run.text = run.text.replace(
