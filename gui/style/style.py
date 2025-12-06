@@ -1,4 +1,3 @@
-# Definir la clase principal de estilo del GUI
 class Style():
     # Fuente
     button_font = ("Helvetica", 14)
