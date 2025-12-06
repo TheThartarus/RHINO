@@ -18,7 +18,7 @@ def exp_section(self):
         )
     )
     new_window.geometry("490x115")
-    new_window.resizable(True, True)
+    new_window.resizable(False, False)
     new_window.grid_columnconfigure(3, weight=1)
 
     # Desplegar los Labels
