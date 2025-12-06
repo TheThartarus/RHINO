@@ -268,6 +268,10 @@ def export(self):
                 doc = Document(doc_path)
                 for para in doc.paragraphs:
                     for run in para.runs:
+                        # Saltar fotos o imágenes
+                        if run.element.xpath("./w:drawing"):
+                            continue
+
                         global_replacements(
                             self,
                             file,

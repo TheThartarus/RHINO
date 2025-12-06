@@ -11,10 +11,6 @@ def global_replacements(
         today_date,
         year_diffs
     ):
-        # Saltar fotos o imágenes
-        if run.element.xpath("./w:drawing"):
-            return
-
         run.font.name = trib_metadata["FONT_NAME"]
 
         if "CARÁTULA" in file:
