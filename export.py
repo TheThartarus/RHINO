@@ -19,10 +19,9 @@ import data
 def export(self):
     today_date = date.today()
 
-    folder_names = ["ENTRADA",
-                    "DECISIÓN",
-                    "OFICIOS (GRUPALES)",
-                    "BOLETAS (GRUPALES)"]
+    group_folders_names = ["ENTRADA",
+                          "OFICIOS (GRUPALES)",
+                          "BOLETAS (GRUPALES)"]
 
     month_names = ["", "enero", "febrero", "marzo",
                    "abril", "mayo", "junio",
@@ -279,7 +278,7 @@ def export(self):
                             year_diffs
                         )
 
-                        if (any(i in current_patch for i in folder_names) and
+                        if (any(i in current_patch for i in group_folders_names) and
                             (data.n_acusseds == 1)):
                             single_acussed_replacements(
                                 self,
@@ -287,7 +286,7 @@ def export(self):
                                 run,
                         )
 
-                        if (any(i in current_patch for i in folder_names) and
+                        if (any(i in current_patch for i in group_folders_names) and
                             (data.n_acusseds > 1)):
                             several_acusseds_replacements(
                                 self,
