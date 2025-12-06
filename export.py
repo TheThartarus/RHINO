@@ -8,11 +8,11 @@ import zipfile
 import json
 import sys
 
-from replaces.global_replacements import global_replacements
-from replaces.single_acussed_replacements import single_acussed_replacements
-from replaces.several_acusseds_replacements import several_acusseds_replacements
-from replaces.decision_replacements import decision_replacements
-from replaces.tribunals_replacements import tribunals_replacements
+from replacements.global_replacements import global_replacements
+from replacements.single_acussed_replacements import single_acussed_replacements
+from replacements.several_acusseds_replacements import several_acusseds_replacements
+from replacements.decision_replacements import decision_replacements
+from replacements.tribunals_replacements import tribunals_replacements
 
 import data
 
