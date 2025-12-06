@@ -8,11 +8,21 @@ import zipfile
 import json
 import sys
 
-from replaces.all_replacements import all_replacements
+from replaces.global_replacements import global_replacements
+from replaces.single_acussed_replacements import single_acussed_replacements
+from replaces.several_acusseds_replacements import several_acusseds_replacements
+from replaces.decision_replacements import decision_replacements
+from replaces.tribunals_replacements import tribunals_replacements
+
 import data
 
 def export(self):
     today_date = date.today()
+
+    folder_names = ["ENTRADA",
+                    "DECISIÓN",
+                    "OFICIOS (GRUPALES)",
+                    "BOLETAS (GRUPALES)"]
 
     month_names = ["", "enero", "febrero", "marzo",
                    "abril", "mayo", "junio",
@@ -160,7 +170,10 @@ def export(self):
 
     # Crear carpetas para cada imputado en la carpeta DECISIÓN
     for i in range(data.n_acusseds):
-        acussed_name = data.acusseds_data[i]["name"].strip().upper().replace(" ", "_")
+        acussed_name = (data.acusseds_data[i]["name"]
+                        .strip()
+                        .upper()
+                        .replace(" ", "_"))
         ticket_src = os.path.join(
             rhino_folder,
             "MODELS",
@@ -256,16 +269,44 @@ def export(self):
                 doc = Document(doc_path)
                 for para in doc.paragraphs:
                     for run in para.runs:
-                        all_replacements(
+                        global_replacements(
                             self,
                             file,
-                            current_patch,
                             run,
                             trib_metadata,
-                            prison_metadata,
                             month_names,
                             today_date,
                             year_diffs
+                        )
+
+                        if (any(i in current_patch for i in folder_names) and
+                            (data.n_acusseds == 1)):
+                            single_acussed_replacements(
+                                self,
+                                file,
+                                run,
+                        )
+
+                        if (any(i in current_patch for i in folder_names) and
+                            (data.n_acusseds > 1)):
+                            several_acusseds_replacements(
+                                self,
+                                file,
+                                run,
+                        )
+                        
+                        if "DECISIÓN" in current_patch:
+                            decision_replacements(
+                                self,
+                                current_patch,
+                                run,
+                                prison_metadata,
+                            )
+
+                        tribunals_replacements(
+                            self,
+                            run,
+                            trib_metadata,
                         )
                 doc.save(doc_path)
     shutil.rmtree(rhino_folder)
