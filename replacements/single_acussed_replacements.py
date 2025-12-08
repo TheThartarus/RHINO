@@ -11,8 +11,6 @@ def single_acussed_replacements(
                     run.text = run.text.replace(
                         "IMP_NAMES",
                         data.acusseds_data[0]["name"]
-                        .strip()
-                        .upper()
                         + " (NO DOCUMENTADA)"
                     )
             else:
@@ -20,8 +18,6 @@ def single_acussed_replacements(
                     run.text = run.text.replace(
                         "IMP_NAMES",
                         data.acusseds_data[0]["name"]
-                        .strip()
-                        .upper()
                         + " (NO DOCUMENTADO)"
                     )
 
@@ -58,8 +54,6 @@ def single_acussed_replacements(
                 run.text = run.text.replace(
                     "IMP_NAMES",
                     data.acusseds_data[0]["name"]
-                    .strip()
-                    .upper()
                 )
             if "TITULAR_TEXT" in run.text:
                 run.text = run.text.replace(
@@ -69,12 +63,8 @@ def single_acussed_replacements(
             if "IMP_CDIS" in run.text:
                 run.text = run.text.replace(
                     "IMP_CDIS", data.acusseds_data[0]['nationality']
-                    .strip()
-                    .upper()
                     + "-"
                     + data.acusseds_data[0]["cdi"]
-                    .strip()
-                    .upper()
                 )
             if "RESPECTIVELY_TEXT" in run.text:
                 run.text = run.text.replace(

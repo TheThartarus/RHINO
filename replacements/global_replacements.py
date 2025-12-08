@@ -192,28 +192,28 @@ def global_replacements(
                     "Vigésima Tercera (23°)"
                 )
         if "IMP_COP" in run.text:
-            if not data.cop_data.strip():
+            if not data.cop_data:
                 pass
             else:
                 run.text = run.text.replace(
                     "IMP_COP",
-                    data.cop_data.strip()
+                    data.cop_data
                 )
         if data.n_acusseds == 1:
             if "GENERAL_CRIME" in run.text:
-                if not data.acusseds_data[0]["crime"].strip():
+                if not data.acusseds_data[0]["crime"]:
                     pass
                 else:
                     run.text = run.text.replace(
                         "GENERAL_CRIME",
-                        data.acusseds_data[0]["crime"].strip()
+                        data.acusseds_data[0]["crime"]
                     )
         else:
             if "GENERAL_CRIME" in run.text:
-                if not data.general_crime["crime"].strip():
+                if not data.general_crime["crime"]:
                     pass
                 else:
                     run.text = run.text.replace(
                         "GENERAL_CRIME",
-                        data.general_crime["crime"].strip()
+                        data.general_crime["crime"]
                     )

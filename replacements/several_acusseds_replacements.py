@@ -34,23 +34,17 @@ def several_acusseds_replacements(
                         name_items.insert(
                             0,
                             data.acusseds_data[idx]["name"]
-                            .strip()
-                            .upper()
                             + " (INDOCUMENTADA)"
                         )
                     else:
                         name_items.insert(
                             0,
                             data.acusseds_data[idx]["name"]
-                            .strip()
-                            .upper()
                             + " (INDOCUMENTADO)"
                         )
                 else:
                     name_items.append(
                         data.acusseds_data[idx]["name"]
-                        .strip()
-                        .upper()
                     )
             run.text = run.text.replace(
                 "IMP_NAMES",
@@ -101,23 +95,15 @@ def several_acusseds_replacements(
                             run.text = run.text.replace(
                                 "IMP_CDIS",
                                 data.acusseds_data[idx]['nationality']
-                                .strip()
-                                .upper()
                                 + "-"
                                 + data.acusseds_data[idx]["cdi"]
-                                .strip()
-                                .upper()
                             )
                         else:
                             run.text = run.text.replace(
                                 "IMP_CDIS",
                                 data.acusseds_data[idx]['nationality']
-                                .strip()
-                                .upper()
                                 + "-"
                                 + data.acusseds_data[idx]["cdi"]
-                                .strip()
-                                .upper()
                                 + ","
                             )
             if "RESPECTIVELY_TEXT" in run.text:
@@ -145,12 +131,8 @@ def several_acusseds_replacements(
                     else:
                         cdi_items.append(
                             data.acusseds_data[idx]['nationality']
-                            .strip()
-                            .upper()
                             + "-"
                             + data.acusseds_data[idx]["cdi"]
-                            .strip()
-                            .upper()
                         )
                 run.text = run.text.replace(
                     "IMP_CDIS",

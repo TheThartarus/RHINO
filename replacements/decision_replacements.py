@@ -49,8 +49,6 @@ def decision_replacements(
                     run.text = run.text.replace(
                         "IMP_NAMES",
                         data.acusseds_data[idx]["name"]
-                        .strip()
-                        .upper()
                         + " (NO DOCUMENTADA)"
                     )
             else:
@@ -58,8 +56,6 @@ def decision_replacements(
                     run.text = run.text.replace(
                         "IMP_NAMES",
                         data.acusseds_data[idx]["name"]
-                        .strip()
-                        .upper()
                         + " (NO DOCUMENTADO)"
                     )
 
@@ -78,8 +74,6 @@ def decision_replacements(
                 run.text = run.text.replace(
                     "IMP_NAMES",
                     data.acusseds_data[idx]["name"]
-                    .strip()
-                    .upper()
                 )
             if "TITULAR_TEXT" in run.text:
                 run.text = run.text.replace(
@@ -90,12 +84,8 @@ def decision_replacements(
                 run.text = run.text.replace(
                     "IMP_CDIS",
                     data.acusseds_data[idx]["nationality"]
-                    .strip()
-                    .upper()
                     + "-"
                     + data.acusseds_data[idx]["cdi"]
-                    .strip()
-                    .upper()
                 )
 
         if data.acusseds_data[idx]["gender"] == "F":
@@ -134,7 +124,6 @@ def decision_replacements(
             run.text = run.text.replace(
                 "IMP_CRIME",
                 data.acusseds_data[idx]["crime"]
-                .strip()
             )
         if data.acusseds_data[idx]["multiple"]:
             if "del delito" in run.text:
