@@ -35,6 +35,19 @@ def assis_section(self):
         sticky="w"
     )
 
+    format_label = tk.Label(
+        new_window,
+        text="EJEMPLO: D.C",
+        font=Style.label_font
+    )
+    format_label.grid(
+        row=1,
+        column=0,
+        pady=Style.pady,
+        padx=Style.padx,
+        sticky="w"
+    )
+
     # Definir la función de validación para el Entry de FIRMA
     def validate_firm_input(P):
         if P == "" or all(char.isalpha()
@@ -91,7 +104,7 @@ def assis_section(self):
     )
     accept_button.grid(
         row=1,
-        column=0,
+        column=1,
         pady=Style.pady,
         padx=Style.padx,
         sticky="ew"
