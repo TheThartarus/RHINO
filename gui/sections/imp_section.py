@@ -297,17 +297,13 @@ def imp_section(self):
 
         if gender == "FEMENINO":
             gender = "F"
-        elif gender == "MASCULINO":
-            gender = "M"
         else:
-            pass
+            gender = "M"
 
         if nationality == "VENEZOLANO":
             nationality = "V"
-        elif nationality == "EXTRANJERO":
-            nationality = "E"
         else:
-            pass
+            nationality = "E"
 
         if multiple == "SÍ":
             multiple = True
