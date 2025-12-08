@@ -19,7 +19,7 @@ def about_section(self):
     new_window.grid_columnconfigure(3, weight=1)
 
     # Desplegar el Label con la información de la aplicación
-    about_text = "Rhino 1.6.3" \
+    about_text = "Rhino 1.6.5" \
     "\n\nDesarrollado por: TheThartarus" \
     "\n\n\n\n© 2025 Todos los derechos reservados"
     about_label = tk.Label(
