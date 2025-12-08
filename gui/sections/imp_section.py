@@ -129,6 +129,20 @@ def imp_section(self):
         sticky="w"
     )
 
+    imp_number_label = tk.Label(
+        new_window,
+        text="IMPUTADO N° " + str(current_acussed + 1),
+        font=Style.label_font
+    )
+    imp_number_label.grid(
+        row=9,
+        column=0,
+        columnspan=3,
+        pady=Style.pady,
+        padx=Style.padx,
+        sticky="w"
+    )
+
     # Definir la función de validación para el Entry de NOMBRE
     def validate_name_input(P):
         if P == "" or all(char.isalpha()
