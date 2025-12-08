@@ -87,6 +87,13 @@ def single_acussed_replacements(
                     ""
                 )
 
+        if data.acusseds_data[0]["multiple"] == True:
+            if "del delito" in run.text:
+                run.text = run.text.replace(
+                    "del delito",
+                    "de los delitos"
+                )
+
         if data.acusseds_data[0]["gender"] == "F":
             if "del ciudadano" in run.text:
                 run.text = run.text.replace(

@@ -167,6 +167,13 @@ def several_acusseds_replacements(
                     "respectivamente"
                 )
 
+            if data.general_crime["multiple"] == True:
+                if "del delito" in run.text:
+                    run.text = run.text.replace(
+                        "del delito",
+                        "de los delitos"
+                    )
+
         if all(data.acusseds_data[i]["gender"] == "F"
                for i in range(data.n_acusseds)):
             if "del ciudadano" in run.text:

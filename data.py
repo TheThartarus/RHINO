@@ -5,3 +5,4 @@ assis_firm = ""
 cop_data = ""
 n_acusseds = 0
 acusseds_data = []
+general_crime = {}

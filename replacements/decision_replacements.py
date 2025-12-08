@@ -129,3 +129,16 @@ def decision_replacements(
                 "IMP_PRISON",
                 prison_metadata["M"]
             )
+
+        if "IMP_CRIME" in run.text:
+            run.text = run.text.replace(
+                "IMP_CRIME",
+                data.acusseds_data[idx]["crime"]
+                .strip()
+            )
+        if data.acusseds_data[idx]["multiple"]:
+            if "del delito" in run.text:
+                run.text = run.text.replace(
+                    "del delito",
+                    "de los delitos"
+                )

@@ -3,6 +3,7 @@ from tkinter import messagebox
 
 from gui.style.style import Style
 from gui.sections.cop_section import cop_section
+from gui.sections.general_crime_section import general_crime_section
 import data
 
 current_acussed = 0
@@ -18,7 +19,7 @@ def imp_section(self):
             + 100
         )
     )
-    new_window.geometry("665x340")
+    new_window.geometry("685x490")
     new_window.resizable(False, False)
     new_window.grid_columnconfigure(3, weight=1)
 
@@ -82,6 +83,46 @@ def imp_section(self):
     )
     gender_label.grid(
         row=4,
+        column=0,
+        pady=Style.pady,
+        padx=Style.padx,
+        sticky="w"
+    )
+
+    crime_label = tk.Label(
+        new_window,
+        text="DELITO(S)",
+        font=Style.label_font
+    )
+    crime_label.grid(
+        row=5,
+        column=0,
+        pady=Style.pady,
+        padx=Style.padx,
+        sticky="w"
+    )
+
+    crime_guide_label = tk.Label(
+        new_window,
+        text="INCLUIR 'PREVISTO(S) Y SANCIONADO(S) EN...'",
+        font=Style.label_font
+    )
+    crime_guide_label.grid(
+        row=6,
+        column=1,
+        columnspan=3,
+        pady=Style.pady,
+        padx=Style.padx,
+        sticky="w"
+    )
+
+    multiple_crimes_label = tk.Label(
+        new_window,
+        text="VARIOS DELITOS",
+        font=Style.label_font
+    )
+    multiple_crimes_label.grid(
+        row=7,
         column=0,
         pady=Style.pady,
         padx=Style.padx,
@@ -190,14 +231,45 @@ def imp_section(self):
         sticky="ew"
     )
 
+    # Desplegar el Entry de DELITO(S)
+    crime_entry = tk.Entry(
+        new_window,
+        font=Style.entry_font)
+    crime_entry.grid(
+        row=5,
+        columnspan=3,
+        column=1,
+        pady=Style.pady,
+        padx=Style.padx,
+        sticky="ew"
+    )
+
+    # Desplegar el OptionMenu de VARIOS DELITOS
+    multiple_crimes_var = tk.StringVar(new_window)
+    multiple_crimes_var.set("NO")
+    multiple_crimes_optionmenu = tk.OptionMenu(
+        new_window,
+        multiple_crimes_var,
+        "SÍ",
+        "NO"
+    )
+    multiple_crimes_optionmenu.grid(
+        row=7,
+        column=1,
+        pady=Style.pady,
+        padx=Style.padx,
+        sticky="ew",
+        columnspan=2
+    )
+
     # Desplegar línea separadora
     tk.Frame(
         new_window,
         height=2,
         bd=1,
         relief=tk.SUNKEN).grid(
-            row=5,
-            column=1,
+            row=8,
+            column=0,
             columnspan=3,
             pady=Style.pady,
             sticky="ew"
@@ -207,8 +279,8 @@ def imp_section(self):
         height=2,
         bd=1,
         relief=tk.SUNKEN).grid(
-            row=5,
-            column=0,
+            row=8,
+            column=1,
             columnspan=3,
             pady=Style.pady,
             sticky="ew"
@@ -220,6 +292,8 @@ def imp_section(self):
         gender = gender_var.get()
         documented = documented_var.get()
         nationality = nationality_var.get()
+        crime = crime_entry.get().strip()
+        multiple = multiple_crimes_var.get()
 
         if gender == "FEMENINO":
             gender = "F"
@@ -235,6 +309,12 @@ def imp_section(self):
         else:
             pass
 
+        if multiple == "SÍ":
+            multiple = True
+        else:
+            multiple = False
+
+        # Si el CDI no tiene puntos, agregarlos
         if documented == "SÍ" and cdi and "." not in cdi:
             if len(cdi) == 9:
                 cdi = cdi[:3] + "." + cdi[3:6] + "." + cdi[6:]
@@ -247,7 +327,10 @@ def imp_section(self):
         if documented == "NO":
             cdi = ""
 
-        if not name.strip() or (documented == "SÍ" and not cdi.strip()) or gender == "SELECCIONAR":
+        if (not name.strip() or
+            (documented == "SÍ" and
+             not cdi.strip()) or
+             gender == "SELECCIONAR"):
             messagebox.showerror(
                 "Error",
                 "Por favor, complete todos los campos."
@@ -260,7 +343,9 @@ def imp_section(self):
             'cdi': cdi,
             'gender': gender,
             'documented': documented,
-            'nationality': nationality
+            'nationality': nationality,
+            'crime': crime,
+            'multiple': multiple
             }
         )
 
@@ -280,7 +365,11 @@ def imp_section(self):
                 "Todos los imputados han sido registrados."
             )
 
-            cop_section(self)
+            if data.n_acusseds == 1:
+                cop_section(self)
+            else:
+                general_crime_section(self)
+
             new_window.destroy()
 
     # Desplegar el Button de REGISTRAR
@@ -295,7 +384,7 @@ def imp_section(self):
         command=register
     )
     register_button.grid(
-        row=6,
+        row=9,
         column=3,
         pady=Style.pady,
         padx=Style.padx,

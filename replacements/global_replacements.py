@@ -199,3 +199,21 @@ def global_replacements(
                     "IMP_COP",
                     data.cop_data.strip()
                 )
+        if data.n_acusseds == 1:
+            if "GENERAL_CRIME" in run.text:
+                if not data.acusseds_data[0]["crime"].strip():
+                    pass
+                else:
+                    run.text = run.text.replace(
+                        "GENERAL_CRIME",
+                        data.acusseds_data[0]["crime"].strip()
+                    )
+        else:
+            if "GENERAL_CRIME" in run.text:
+                if not data.general_crime["crime"].strip():
+                    pass
+                else:
+                    run.text = run.text.replace(
+                        "GENERAL_CRIME",
+                        data.general_crime["crime"].strip()
+                    )
